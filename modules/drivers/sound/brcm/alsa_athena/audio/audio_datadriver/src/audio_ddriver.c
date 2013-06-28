@@ -188,11 +188,7 @@ AUDIO_DRIVER_HANDLE_t  AUDIO_DRIVER_Open(AUDIO_DRIVER_TYPE_t drv_type)
             break;
         case AUDIO_DRIVER_CAPT_HQ:
             {
-<<<<<<< HEAD
                 aud_drv->stream_id = csl_audio_capture_init (CSL_AUDVOC_DEV_CAPTURE_AUDIO,CSL_AUDVOC_DEV_NONE);
-=======
-                //aud_drv->stream_id = csl_audio_capture_init (CSL_AUDVOC_DEV_CAPTURE_AUDIO,CSL_AUDVOC_DEV_NONE);
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
                 audio_capture_driver = aud_drv;
             }
             break;
@@ -257,11 +253,7 @@ void AUDIO_DRIVER_Close(AUDIO_DRIVER_HANDLE_t drv_handle)
             break;
         case AUDIO_DRIVER_CAPT_HQ:
             {
-<<<<<<< HEAD
                 csl_audio_capture_deinit (aud_drv->stream_id);
-=======
-                //csl_audio_capture_deinit (aud_drv->stream_id);
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
                 audio_capture_driver = NULL;
             }
             break;
@@ -556,10 +548,6 @@ static Result_t AUDIO_DRIVER_ProcessCaptureCmd(AUDIO_DDRIVER_t* aud_drv,
                     Log_DebugPrintf(LOGID_AUDIO,"AUDIO_DRIVER_ProcessCaptureCmd::All Configuration is not set yet  \n"  );
                     return result_code;
                 }
-<<<<<<< HEAD
-=======
-		aud_drv->stream_id = csl_audio_capture_init (CSL_AUDVOC_DEV_CAPTURE_AUDIO,CSL_AUDVOC_DEV_NONE);
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
                 /* Block size = (smaples per ms) * (number of channeles) * (bytes per sample) * (interrupt period in ms) 
                  * Number of blocks = buffer size/block size
                  *
@@ -586,10 +574,6 @@ static Result_t AUDIO_DRIVER_ProcessCaptureCmd(AUDIO_DDRIVER_t* aud_drv,
             {
                 //stop capture
                 result_code = csl_audio_capture_stop (aud_drv->stream_id);
-<<<<<<< HEAD
-=======
-		csl_audio_capture_deinit (aud_drv->stream_id);
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
             }
             break;
         case AUDIO_DRIVER_PAUSE:

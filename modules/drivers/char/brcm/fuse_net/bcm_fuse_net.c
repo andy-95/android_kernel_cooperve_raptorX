@@ -73,11 +73,7 @@ extern unsigned char SYS_GenClientID(void);
 /**
    Packet Data EndPoint buffer pool info
  */
-<<<<<<< HEAD
 #define BCM_NET_MAX_DATA_LEN       1500 //bytes
-=======
-#define BCM_NET_MAX_DATA_LEN       1400 //bytes //Fixed MTU size 1500->1400 for CHN_OPEN
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 #define BCM_NET_MAX_NUM_PKTS       250 //packets
 
 

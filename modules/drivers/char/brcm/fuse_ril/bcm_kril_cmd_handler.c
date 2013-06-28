@@ -42,10 +42,6 @@ extern int g_kril_initialised;
 #ifdef CONFIG_HAS_WAKELOCK
 extern struct wake_lock kril_rsp_wake_lock;
 extern struct wake_lock kril_notify_wake_lock;
-<<<<<<< HEAD
-=======
-extern struct wake_lock kril_result_wake_lock;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 #endif
 // for debug log switch flag
 #ifdef CONFIG_BRCM_UNIFIED_LOGGING
@@ -397,12 +393,6 @@ void KRIL_SendResponse(KRIL_CmdList_t *listentry)
         entry->result_info.data = kmalloc(entry->result_info.datalen, GFP_KERNEL);
         memcpy(entry->result_info.data, listentry->bcm_ril_rsp, entry->result_info.datalen);
     }
-<<<<<<< HEAD
-=======
-    #ifdef CONFIG_HAS_WAKELOCK
-    wake_lock(&kril_result_wake_lock);
-    #endif
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
     spin_lock_irqsave(&(gKrilParam.recv_lock), flags);
     list_add_tail(&entry->list, &(gKrilResultQueue.list));
     spin_unlock_irqrestore(&(gKrilParam.recv_lock), flags);
@@ -443,12 +433,6 @@ void KRIL_SendNotify(int CmdID, void *rsp_data, UInt32 rsp_len)
         entry->result_info.data = kmalloc(entry->result_info.datalen, GFP_KERNEL);
         memcpy(entry->result_info.data, rsp_data, entry->result_info.datalen);
     }
-<<<<<<< HEAD
-=======
-    #ifdef CONFIG_HAS_WAKELOCK
-    wake_lock(&kril_result_wake_lock);
-    #endif
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
     spin_lock_irqsave(&(gKrilParam.recv_lock), flags);
     list_add_tail(&entry->list, &(gKrilResultQueue.list));
     spin_unlock_irqrestore(&(gKrilParam.recv_lock), flags);
@@ -959,10 +943,6 @@ Boolean IsNeedToWait(unsigned long CmdID)
     else if(RIL_REQUEST_HANGUP_WAITING_OR_BACKGROUND == CmdID ||
             RIL_REQUEST_HANGUP_FOREGROUND_RESUME_BACKGROUND == CmdID ||
             RIL_REQUEST_SWITCH_WAITING_OR_HOLDING_AND_ACTIVE == CmdID ||
-<<<<<<< HEAD
-=======
-            RIL_REQUEST_SEPARATE_CONNECTION == CmdID ||
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
             RIL_REQUEST_CONFERENCE == CmdID) // Just only send one MPTY call request to CP to avoid call state error
     {
         struct list_head *listptr, *listpos;
@@ -977,10 +957,6 @@ Boolean IsNeedToWait(unsigned long CmdID)
             if(RIL_REQUEST_HANGUP_WAITING_OR_BACKGROUND == listentry->ril_cmd->CmdID ||
                RIL_REQUEST_HANGUP_FOREGROUND_RESUME_BACKGROUND == listentry->ril_cmd->CmdID ||
                RIL_REQUEST_SWITCH_WAITING_OR_HOLDING_AND_ACTIVE == listentry->ril_cmd->CmdID ||
-<<<<<<< HEAD
-=======
-               RIL_REQUEST_SEPARATE_CONNECTION == listentry->ril_cmd->CmdID ||               
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
                RIL_REQUEST_CONFERENCE == listentry->ril_cmd->CmdID)
             {
                 KRIL_DEBUG(DBG_INFO, "command list::CmdID:%d find CmdID:%d tid:%d\n", CmdID, listentry->ril_cmd->CmdID, listentry->tid);
@@ -1260,20 +1236,10 @@ void KRIL_ClearCallNumPresent(void)
 // Notes:
 //
 //******************************************************************************
-<<<<<<< HEAD
 void KRIL_SetCallNumPresent(int index, PresentationInd_t present)
 {
     KRIL_DEBUG(DBG_INFO,"index:%d theCallType:%d\n", index, present);
     sCallNumPresent[index] = present;
-=======
-void KRIL_SetCallNumPresent(int index, PresentationInd_t present, UInt8 c_num)
-{
-    KRIL_DEBUG(DBG_INFO,"index:%d theCallType:%d NumberLength:%d\n", index, present,c_num);
-    if( c_num > 0)
-	sCallNumPresent[index] = 0; //CC_PRESENTATION_ALLOWED
-    else
-	sCallNumPresent[index] = present;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 }
 
 //******************************************************************************
@@ -1438,21 +1404,6 @@ RIL_LastCallFailCause KRIL_MNCauseToRilError(Cause_t inMNCause)
         case MNCAUSE_USER_BUSY:
             failCause = CALL_FAIL_BUSY;
             break;
-<<<<<<< HEAD
-=======
-            
-        case MNCAUSE_NO_USER_RESPONDING:
-            failCause = CALL_FAIL_NORESPONDING;
-            break;
-
-        case MNCAUSE_USER_ALERTING_NO_ANSWR:
-            failCause = CALL_FAIL_NOANSWER;
-            break;
-            
-        case MNCAUSE_MN_CALL_REJECTED:
-            failCause = CALL_FAIL_CALL_REJECTED;
-            break;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
         case MNCAUSE_NO_CIRCUIT_AVAILABLE:
         case MNCAUSE_SWITCH_CONGESTION:

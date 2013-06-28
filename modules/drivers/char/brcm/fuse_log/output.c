@@ -195,20 +195,10 @@ static void GetLogFileName( char *buf, char *rootdev, int size )
 /*
  *	Write log to NAND file system
  */
-<<<<<<< HEAD
 void WriteToLogDev_NAND( void )
 {
 	mm_segment_t oldfs ;
 	char		 fname[MAX_LOG_PATHNAME] ;
-=======
-int WriteToLogDev_NAND( void )
-{
-	mm_segment_t oldfs ;
-	char		 fname[MAX_LOG_PATHNAME] ;
-	struct file *pfile;
-
-	pfile = 0;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 	oldfs = get_fs( ) ;
 	set_fs (KERNEL_DS);
@@ -217,7 +207,6 @@ int WriteToLogDev_NAND( void )
 	 *	Attempt to open log file, if not already open
 	 */
 
-<<<<<<< HEAD
 	if( !g_devWrParms.file )
 	{
 		GetLogFileName( fname, "/data/log/", sizeof( fname ) ) ;		
@@ -227,23 +216,11 @@ int WriteToLogDev_NAND( void )
 		if( IS_ERR( g_devWrParms.file ) )
 			g_devWrParms.file = 0 ;
 	}
-=======
-		GetLogFileName( fname, "/data/log/", sizeof( fname ) ) ;		
-
-		pfile = filp_open( fname, O_WRONLY|O_TRUNC|O_CREAT, 0666); 
-
-		if( IS_ERR( pfile ) )
-			pfile = 0 ;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 	/*
 	 *	If log file open start logging to it
 	 */
-<<<<<<< HEAD
 	if( g_devWrParms.file )
-=======
-	if( pfile )
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 	{
 		u32 nFifo ;
 
@@ -258,13 +235,8 @@ int WriteToLogDev_NAND( void )
 
 			if( nFifo > 0 )
 			{
-<<<<<<< HEAD
 				nWrite = g_devWrParms.file->f_op->write( g_devWrParms.file, 
 					BCMLOG_FifoGetData( &g_fifo ), nFifo, &g_devWrParms.file->f_pos ) ;
-=======
-				nWrite = pfile->f_op->write( pfile, 
-					BCMLOG_FifoGetData( &g_fifo ), nFifo, &pfile->f_pos ) ;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 				if( nWrite > 0 )
 					BCMLOG_FifoRemove( &g_fifo, nWrite ) ;
@@ -272,37 +244,21 @@ int WriteToLogDev_NAND( void )
 				if( nWrite < nFifo )
 				{
 					nFifo = 0 ;
-<<<<<<< HEAD
 					filp_close( g_devWrParms.file ,NULL );
 					g_devWrParms.file = 0 ;
-=======
-					filp_close( pfile ,NULL );
-					pfile = 0 ;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 					/*
 					 * in the case of sdcard, redirect output
 					 * to 'null' as the card is full or removed at
 					 * this point
 					 */
-<<<<<<< HEAD
 					 g_devWrParms.outdev = BCMLOG_OUTDEV_NONE ;
-=======
-					 return -1;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 				}
 			}
 		} while( nFifo > 0 );
 	}
-<<<<<<< HEAD
 	filp_close( g_devWrParms.file ,NULL ); /* file close for next logging */
 	g_devWrParms.file =0;
 	set_fs( oldfs ) ;
-=======
-	filp_close( pfile ,NULL ); /* file close for next logging */
-	pfile =0;
-	set_fs( oldfs ) ;
-	return 0;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 }
 /*
  *	Write log to SDCARD file system

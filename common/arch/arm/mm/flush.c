@@ -17,10 +17,6 @@
 #include <asm/smp_plat.h>
 #include <asm/system.h>
 #include <asm/tlbflush.h>
-<<<<<<< HEAD
-=======
-#include <asm/outercache.h>
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 #include "mm.h"
 
@@ -240,10 +236,6 @@ static void __flush_dcache_aliases(struct address_space *mapping, struct page *p
 void flush_dcache_page(struct page *page)
 {
 	struct address_space *mapping;
-<<<<<<< HEAD
-=======
-	unsigned int paddr;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 	/*
 	 * The zero page is never written to, so never has any dirty
@@ -266,12 +258,6 @@ void flush_dcache_page(struct page *page)
 		else if (mapping)
 			__flush_icache_all();
 	}
-<<<<<<< HEAD
-=======
-
-	paddr = page_to_phys(page);
-	outer_flush_range(paddr, paddr + PAGE_SIZE);
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 }
 EXPORT_SYMBOL(flush_dcache_page);
 

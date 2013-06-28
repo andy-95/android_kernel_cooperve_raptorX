@@ -142,11 +142,6 @@ typedef struct {
 
 typedef struct {
     char   networkInfo[30];
-<<<<<<< HEAD
-=======
-    int    manualRat;
-    int    permanentAutoEnable;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 } KrilManualSelectInfo_t;
 
 

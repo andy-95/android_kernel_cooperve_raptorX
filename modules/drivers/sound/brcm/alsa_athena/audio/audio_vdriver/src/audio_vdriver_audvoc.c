@@ -83,14 +83,7 @@ AUDDRV_MIC_Enum_t   currVoiceMic = AUDDRV_MIC_NONE;   //used in pcm i/f control.
 AUDDRV_SPKR_Enum_t  currVoiceSpkr = AUDDRV_SPKR_NONE;  //used in pcm i/f control. assume one mic, one spkr.
 Boolean inVoiceCall = FALSE;
 
-<<<<<<< HEAD
 extern Boolean voicePlayOutpathEnabled;  //this is needed because DSPCMD_AUDIO_ENABLE sets/clears AMCR.AUDEN
-=======
-//this is needed because DSPCMD_AUDIO_ENABLE sets/clears AMCR.AUDEN
-extern Boolean vopath_enabled;
-extern Boolean vipath_enabled;
-
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 extern Boolean controlFlagForCustomGain;
 
 //=============================================================================
@@ -102,22 +95,15 @@ extern Boolean controlFlagForCustomGain;
 #define ANACR0_DrvrSelMask (0x006000) //Drvr_selR, Drvr_selL
 #endif
 
-<<<<<<< HEAD
 Boolean voiceInPathEnabled = FALSE;  //this is needed because DSPCMD_AUDIO_ENABLE sets/clears AMCR.AUDEN for both voiceIn and voiceOut
 
-=======
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 static AudioEqualizer_en_t	sEqualizerType = EQU_NORMAL;
 static void *sUserCB = NULL;
 
 //=============================================================================
 // Private function prototypes
 //=============================================================================
-<<<<<<< HEAD
 
-=======
-extern void auddrv_FinshTelephonyDeinit( void );
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 //=============================================================================
 // Functions
@@ -309,7 +295,6 @@ void AUDDRV_Enable_Output (
           mixer_speaker_selection, enable_speaker, input_path_to_mixer, inVoiceCall, sample_rate);
 
 #if defined(FUSE_APPS_PROCESSOR)
-<<<<<<< HEAD
 	AUDDRV_EnableHWOutput( input_path_to_mixer, mixer_speaker_selection, enable_speaker, sample_rate, input_to_mixer,
 		AUDDRV_REASON_HW_CTRL );
 	OSTASK_Sleep( 5 );  //sometimes BBC video has no audio. This delay may help the mixer filter and mixer gain loading.
@@ -320,24 +305,6 @@ void AUDDRV_Enable_Output (
 			
 			if(inVoiceCall != TRUE)
 			{
-=======
-	switch(input_path_to_mixer)
-	{
-		case AUDDRV_VOICE_OUTPUT:
-			//at first
-			currVoiceSpkr = mixer_speaker_selection;
-			
-			if(inVoiceCall == FALSE)
-			{
-				AUDDRV_EnableHWOutput( input_path_to_mixer,
-					mixer_speaker_selection,
-					enable_speaker,
-					sample_rate,
-					input_to_mixer,
-					AUDDRV_REASON_HW_CTRL );
-				OSTASK_Sleep( 5 );  //sometimes BBC video has no audio. This delay may help the mixer filter and mixer gain loading.
-
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 				//if inVoiceCall== TRUE, assume the telphony_init() function sends ENABLE and CONNECT_DL
 				if (sample_rate == AUDIO_SAMPLING_RATE_8000)
 				{
@@ -349,7 +316,6 @@ void AUDDRV_Enable_Output (
 					audio_control_dsp(DSPCMD_TYPE_AUDIO_ENABLE, 1, 1, 0, 0, 0 );
 					audio_control_dsp(DSPCMD_TYPE_AUDIO_CONNECT_DL, 1, 1, 0, 0, 0 );
 				}
-<<<<<<< HEAD
 				voicePlayOutpathEnabled = TRUE;
 
 				Log_DebugPrintf(LOGID_AUDIO, "\n\r\t* AUDDRV_Enable_Output: inVoiceCall = %d, voicePlayOutpathEnabled = %d\n\r", inVoiceCall, voicePlayOutpathEnabled);
@@ -375,25 +341,6 @@ void AUDDRV_Enable_Output (
 			break;
 
 		case AUDDRV_RINGTONE_OUTPUT:
-=======
-
-			}	
-			//else	//if inVoiceCall== TRUE, assume the telphony_init() already sent ENABLE and CONNECT_DL
-			
-			Log_DebugPrintf(LOGID_AUDIO, "\n\r\t* AUDDRV_Enable_Output: inVoiceCall = %d, vipath_enabled = %d, vopath_enabled = %d\n\r", inVoiceCall, vipath_enabled, vopath_enabled);
-			vopath_enabled = TRUE;
-			break;
-
-		case AUDDRV_AUDIO_OUTPUT:
-		case AUDDRV_RINGTONE_OUTPUT:
-			AUDDRV_EnableHWOutput( input_path_to_mixer,
-				mixer_speaker_selection,
-				enable_speaker,
-				sample_rate,
-				input_to_mixer,
-				AUDDRV_REASON_HW_CTRL );
-			OSTASK_Sleep( 5 );  //sometimes BBC video has no audio. This delay may help the mixer filter and mixer gain loading.
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 			break;
 
 		default:
@@ -420,22 +367,13 @@ void AUDDRV_Disable_Output ( AUDDRV_InOut_Enum_t  path )
 				
 			Log_DebugPrintf(LOGID_AUDIO, "\n\r\t* AUDDRV_Disable_Output *\n\r" );
 
-<<<<<<< HEAD
 			if(inVoiceCall != TRUE)
 			{
 				if ( voiceInPathEnabled==FALSE )
-=======
-			if(inVoiceCall == FALSE)
-			{
-				AUDDRV_DisableHWOutput ( path, AUDDRV_REASON_HW_CTRL );
-
-				if ( vipath_enabled == FALSE )
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 				{
 				//if inVoiceCall== TRUE, assume the telphony_init() function sends ENABLE and CONNECT_DL
 				audio_control_dsp(DSPCMD_TYPE_AUDIO_CONNECT_DL, 0, 0, 0, 0, 0 );
 				audio_control_dsp(DSPCMD_TYPE_AUDIO_ENABLE, 0, 0, 0, 0, 0 );
-<<<<<<< HEAD
 				voicePlayOutpathEnabled = FALSE;
 				Log_DebugPrintf(LOGID_AUDIO, "\n\r\t* AUDDRV_Disable_Output: inVoiceCall = %d, voicePlayOutpathEnabled = %d\n\r", voicePlayOutpathEnabled);
 				}
@@ -461,28 +399,6 @@ void AUDDRV_Disable_Output ( AUDDRV_InOut_Enum_t  path )
 	AUDDRV_DisableHWOutput ( path, AUDDRV_REASON_HW_CTRL );
 #endif //#if defined(FUSE_APPS_PROCESSOR)	
 
-=======
-				}
-				else  //if ( vipath_enabled ==TRUE )
-			{
-					audio_control_dsp(DSPCMD_TYPE_AUDIO_CONNECT_DL, 0, 0, 0, 0, 0 );
-				}
-			}
-			//else	//if inVoiceCall== TRUE, do nothing
-
-			Log_DebugPrintf(LOGID_AUDIO, "\n\r\t* AUDDRV_Disable_Output: inVoiceCall = %d, vipath_enabled = %d, vopath_enabled = %d\n\r", inVoiceCall, vipath_enabled, vopath_enabled);
-			//at last:
-			vopath_enabled = FALSE;
-			currVoiceSpkr = AUDDRV_SPKR_NONE;
-			auddrv_FinshTelephonyDeinit();
-			break;
-			
-		default:
-			AUDDRV_DisableHWOutput ( path, AUDDRV_REASON_HW_CTRL );
-			break;
-	}
-#endif //#if defined(FUSE_APPS_PROCESSOR)	
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 }
 
 
@@ -503,31 +419,16 @@ void AUDDRV_Enable_Input (
 #if defined(FUSE_APPS_PROCESSOR)
 	currInputSamplingRate = sample_rate;
 	
-<<<<<<< HEAD
 	AUDDRV_EnableHWInput ( input_path, mic_selection, sample_rate,
 		AUDDRV_REASON_HW_CTRL );
 
-=======
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 	switch(input_path) {
 	case AUDDRV_VOICE_INPUT:
 		
 		Log_DebugPrintf(LOGID_AUDIO, "\n\r\t* AUDDRV_Enable_Input mic_selection %d *\n\r", mic_selection );
-<<<<<<< HEAD
 
 		if(inVoiceCall != TRUE)
 		{
-=======
-		//at first
-		currVoiceMic = mic_selection;
-
-		if(inVoiceCall == FALSE)
-		{
-			AUDDRV_EnableHWInput ( input_path, mic_selection, sample_rate, AUDDRV_REASON_HW_CTRL );
-
-			OSTASK_Sleep( 5 );  // symmetric design for DL.
-
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 			//if inVoiceCall== TRUE, assume the telphony_init() function sends ENABLE and CONNECT_UL
 			if (sample_rate == AUDIO_SAMPLING_RATE_8000)
 			{
@@ -542,7 +443,6 @@ void AUDDRV_Enable_Input (
 				audio_control_dsp(DSPCMD_TYPE_AUDIO_ENABLE, 1, 1, 0, 0, 0 );
 			}
 			
-<<<<<<< HEAD
 		}
         voiceInPathEnabled = TRUE;
 		currVoiceMic = mic_selection;
@@ -557,19 +457,6 @@ void AUDDRV_Enable_Input (
 		break;
 
 	default:
-=======
-			// ensure recording gain as gain is not controller spearately.
-			audio_control_dsp( DSPCMD_TYPE_UNMUTE_DSP_UL, 0, 0, 0, 0, 0 );
-		}
-		//else,	if inVoiceCall== TRUE, assume the telphony_init() already sent ENABLE and CONNECT_UL
-			
-		Log_DebugPrintf(LOGID_AUDIO, "\n\r\t* AUDDRV_Enable_Input: inVoiceCall = %d, vipath_enabled = %d, vopath_enabled = %d\n\r", inVoiceCall, vipath_enabled, vopath_enabled);
-		vipath_enabled = TRUE;
-		break;
-
-	default:
-		AUDDRV_EnableHWInput ( input_path, mic_selection, sample_rate, AUDDRV_REASON_HW_CTRL );
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 		break;
 	}
 #endif //#if defined(FUSE_APPS_PROCESSOR)
@@ -591,26 +478,15 @@ void AUDDRV_Disable_Input (  AUDDRV_InOut_Enum_t      path )
 
 		Log_DebugPrintf(LOGID_AUDIO, "\n\r\t* AUDDRV_Disable_Input *\n\r" );
 
-<<<<<<< HEAD
 		
 		if(inVoiceCall != TRUE)
 		{
 			if ( voicePlayOutpathEnabled == FALSE )
-=======
-		if(inVoiceCall == FALSE)
-		{
-			AUDDRV_DisableHWInput ( path, AUDDRV_REASON_HW_CTRL );
-
-			audio_control_dsp( DSPCMD_TYPE_MUTE_DSP_UL, 0, 0, 0, 0, 0 );
-
-			if ( vopath_enabled == FALSE )
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 			{
 			//if inVoiceCall== TRUE, assume the telphony_init() function sends ENABLE and CONNECT_UL
 			audio_control_dsp(DSPCMD_TYPE_AUDIO_ENABLE, 0, 0, 0, 0, 0 );
 			audio_control_dsp(DSPCMD_TYPE_AUDIO_CONNECT_UL, FALSE, 0, 0, 0, 0);
 			}
-<<<<<<< HEAD
 			
 		
 		    if (currVoiceMic == AUDDRV_MIC_PCM_IF)  //turn off PCM
@@ -629,19 +505,6 @@ void AUDDRV_Disable_Input (  AUDDRV_InOut_Enum_t      path )
         voiceInPathEnabled = FALSE;
 	    AUDDRV_DisableHWInput ( path, AUDDRV_REASON_HW_CTRL );
 
-=======
-			else  //if ( vopath_enabled ==TRUE )
-			    {
-				audio_control_dsp(DSPCMD_TYPE_AUDIO_CONNECT_UL, FALSE, 0, 0, 0, 0);
-			    }
-		} //else,	if inVoiceCall== TRUE, do nothing
-
-		Log_DebugPrintf(LOGID_AUDIO, "\n\r\t* AUDDRV_Disable_Input: inVoiceCall = %d, vipath_enabled = %d, vopath_enabled = %d\n\r", inVoiceCall, vipath_enabled, vopath_enabled);
-		//at last:
-		vipath_enabled = FALSE;
-		    currVoiceMic = AUDDRV_MIC_NONE;
-		auddrv_FinshTelephonyDeinit();
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
         break;
 
 	default:

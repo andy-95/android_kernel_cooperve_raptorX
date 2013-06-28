@@ -136,16 +136,6 @@ RPC_Result_t RPC_PACKET_SendData(UInt8 rpcClientID, PACKET_InterfaceType_t inter
 	IPC_ReturnCode_T ipcError;
 
 	UInt8* pCid = (UInt8*)IPC_BufferHeaderSizeSet((IPC_Buffer)dataBufHandle , 4);
-<<<<<<< HEAD
-=======
-	
-	if(pCid == NULL)
-	{
-		_DBG_(RPC_TRACE("RPC PACKET wasn't allocated. \r\n"));
-		return RPC_RESULT_ERROR;
-	}
-	
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 	pCid[0] = channel;
 
 	if (rpcClientID) {} //fixes compiler warnings

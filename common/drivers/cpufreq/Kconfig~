@@ -57,6 +57,7 @@ config BACEM_TWEAK
 	tristate "bacem_tweak"
 
 choice
+        prompt "Default CPUFreq governor"
 	default CPU_FREQ_DEFAULT_GOV_USERSPACE if CPU_FREQ_SA1100 || CPU_FREQ_SA1110
 	default CPU_FREQ_DEFAULT_GOV_PERFORMANCE
 	help
@@ -92,13 +93,6 @@ config CPU_FREQ_DEFAULT_GOV_BRAZILIANWAX
 	help
 	  Use the CPUFreq governor 'brazilianwax as default.
 
-
-config CPU_FREQ_DEFAULT_GOV_SCARY
-	bool "scary"
-	select CPU_FREQ_GOV_SCARY
-	help
-		Use the CPUFreq governor 'scary' as default.
-
 config CPU_FREQ_DEFAULT_GOV_POWERSAVE
 	bool "powersave"
 	depends on EMBEDDED
@@ -129,14 +123,6 @@ config CPU_FREQ_DEFAULT_GOV_INTERACTIVEX
 	  you to get a full dynamic cpu frequency capable system by simply
 	  loading your cpufreq low-level hardware driver, using the
 	  'interactiveX' governor for latency-sensitive workloads.
-
-config CPU_FREQ_DEFAULT_GOV_INTERACTIVE
-	bool "interactive"
-	select CPU_FREQ_GOV_INTERACTIVE
-	help
-	 Use the 'interactive' governor as default. This gets full cpu frequency
-	 scaling for workloads that are latency sensitive, typically interactive
-	 workloads..
 
 config CPU_FREQ_DEFAULT_GOV_LAGFREE
         bool "lagfree"
@@ -178,12 +164,6 @@ config CPU_FREQ_DEFAULT_GOV_SMOOTHASS
  	help
  	  Use the CPUFreq governor 'smoothass' as default.
 
-config CPU_FREQ_DEFAULT_GOV_LAZY
-        bool "lazy"
-        select CPU_FREQ_GOV_LAZY
-        help
-          Use the CPUFreq governor 'lazy' as default.
-
 config CPU_FREQ_DEFAULT_GOV_CONSERVATIVE
 	bool "conservative"
 	select CPU_FREQ_GOV_CONSERVATIVE
@@ -195,13 +175,6 @@ config CPU_FREQ_DEFAULT_GOV_CONSERVATIVE
 	  Be aware that not all cpufreq drivers support the conservative
 	  governor. If unsure have a look at the help section of the
 	  driver. Fallback governor will be the performance governor.
-
-config CPU_FREQ_DEFAULT_GOV_SAVAGEDZEN
-	bool "SavagedZen"
-	select CPU_FREQ_GOV_SAVAGEDZEN
-	help
-	  Use the CPUFreq governor 'savagedzen' as default.
-
 
 config CPU_FREQ_DEFAULT_GOV_BCM21553
 	bool "bcm21553"
@@ -240,18 +213,6 @@ config CPU_FREQ_GOV_INTERACTIVE
 	 Designed for low latency burst workloads. Scaling it done when coming
 	 out of idle instead of polling.
 
-config CPU_FREQ_GOV_LAZY
-    tristate "'lazy' cpufreq governor"
-    depends on CPU_FREQ
-
-config CPU_FREQ_GOV_SCARY
-	tristate "'scary' cpufreq governor"
-	depends on CPU_FREQ
-	help
-		scary - a governor for cabbages
-
-		If in doubt, say N.
-
 config CPU_FREQ_GOV_POWERSAVE
 	tristate "'powersave' governor"
 	help
@@ -267,13 +228,6 @@ config CPU_FREQ_GOV_INTERACTIVEX
 	tristate "'interactiveX' cpufreq policy governor"
 	help
 	  'interactiveX' - Modified version of interactive with sleep+wake code.
-
-config CPU_FREQ_GOV_SAVAGEDZEN
-	tristate "'savagedzen' cpufreq governor"
-	depends on CPU_FREQ
-	help
-	   'Savaged-Zen' - a "smartass" based governor
-	   If in doubt, say N.
 
 config CPU_FREQ_GOV_SMARTASS2
 	tristate "'smartassV2' cpufreq governor"

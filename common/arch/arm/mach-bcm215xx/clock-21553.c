@@ -592,7 +592,6 @@ unsigned long bcm21553_arm11_get_rate(struct clk *clk)
 int bcm21553_arm11_set_rate(struct clk *clk, unsigned long val)
 {
 	u32 mode;
-<<<<<<< HEAD
 	u32 arm11_freq[8];
 	u32 apps_pll_freq = bcm21553_apps_pll_get_rate();
 
@@ -604,18 +603,10 @@ int bcm21553_arm11_set_rate(struct clk *clk, unsigned long val)
 	arm11_freq[5] = (apps_pll_freq*2)/3;  /*  832 MHz  */
         arm11_freq[6] = (apps_pll_freq*3)/4;  /*  936 MHz  */
         arm11_freq[7] = (apps_pll_freq*5)/6;  /* 1040 MHz  */
-=======
-	u32 arm11_freq[2];
-	u32 apps_pll_freq = bcm21553_apps_pll_get_rate();
-
-	arm11_freq[0] = FREQ_MHZ(312);
-	arm11_freq[1] = (apps_pll_freq*2)/3;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 	/*we support only two modes  - 0xC & 0xF*/
 	if (val == arm11_freq[0])
 	{
-<<<<<<< HEAD
 		mode = 0x08;
 	}
 	else if (val == arm11_freq[1])
@@ -643,19 +634,6 @@ int bcm21553_arm11_set_rate(struct clk *clk, unsigned long val)
 		mode = 0x0E;
 	}
         else if (val == arm11_freq[7])
-=======
-		mode = 0x0C;
-	}
-	else if (val == FREQ_MHZ(624))
-	{
-		mode = 0x0E;
-	}
-        else if (val == FREQ_MHZ(156))
-	{
-		mode = 0x0A;
-	}
-	else if (val == arm11_freq[1])
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 	{
 		mode = 0x0F;
 	} else
@@ -669,7 +647,6 @@ int bcm21553_arm11_set_rate(struct clk *clk, unsigned long val)
 
 long bcm21553_arm11_round_rate(struct clk *clk, unsigned long desired_val)
 {
-<<<<<<< HEAD
 	u32 arm11_freq[8];
 	u32 apps_pll_freq = bcm21553_apps_pll_get_rate();
 
@@ -686,20 +663,6 @@ long bcm21553_arm11_round_rate(struct clk *clk, unsigned long desired_val)
 	return (long)bcm21553_generic_round_rate(desired_val,
 						 arm11_freq,
 						 7);
-=======
-	u32 arm11_freq[4];
-	u32 apps_pll_freq = bcm21553_apps_pll_get_rate();
-
-	/*we support only two freq  - 312Mhz & appPll/1.5*/
-	arm11_freq[1] = FREQ_MHZ(312);
-        arm11_freq[0] = FREQ_MHZ(156);
-	arm11_freq[3] = FREQ_MHZ(624);
-	arm11_freq[4] = (apps_pll_freq*2)/3;
-
-	return (long)bcm21553_generic_round_rate(desired_val,
-						 arm11_freq,
-						 3);
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 }
 
 /*AHB clock*/
@@ -2164,7 +2127,3 @@ static void __exit clk_exit(void)
 
 arch_initcall(clk_init);
 module_exit(clk_exit);
-<<<<<<< HEAD
-=======
-
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6

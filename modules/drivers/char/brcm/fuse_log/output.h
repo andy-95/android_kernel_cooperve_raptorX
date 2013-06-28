@@ -47,10 +47,6 @@ void BCMLOG_Output( unsigned char *pUserBuf, unsigned long userBufSz, unsigned i
  **/
 int BCMLOG_OutputInit( void ) ;
 
-<<<<<<< HEAD
 extern void WriteToLogDev_NAND( void );
-=======
-extern int WriteToLogDev_NAND( void );
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 #endif // __BCMLOG_OUTPUT_H__

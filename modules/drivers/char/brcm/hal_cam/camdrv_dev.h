@@ -51,13 +51,6 @@ the GPL, without Broadcom's express prior written consent.
 /** total number of Camera Sensor registers*/
 #define CAM_REGISTER_CNT    (0x00+1)    
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_BCM_CAM_S5K4ECGX 
-#define CAM_FLASH_MODE 	52
-#define CAM_FLASH_EN 		53
-#endif
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 /** Camera control Structure */
 typedef struct
 {
@@ -646,12 +639,6 @@ HAL_CAM_Result_en_t CAMDRV_SetFocusMode(
         );
 HAL_CAM_Result_en_t CAMDRV_TurnOffAF();
 HAL_CAM_Result_en_t CAMDRV_TurnOnAF();
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_BCM_CAM_S5K4ECGX
-HAL_CAM_Result_en_t CAMDRV_CancelAF();
-#endif
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 HAL_CAM_Result_en_t CAMDRV_SetJpegQuality(
         CamJpegQuality_t effect,                      ///< (in) 

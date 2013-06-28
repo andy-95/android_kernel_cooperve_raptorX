@@ -451,11 +451,7 @@ static int bcm_cpufreq_init(struct cpufreq_policy *policy)
 	/* Set default policy and cpuinfo */
 	policy->cur = bcm_cpufreq_get_speed(0);
 	/* FIXME: Tune this value */
-<<<<<<< HEAD
 	policy->cpuinfo.transition_latency = CPUFREQ_ETERNAL;
-=======
-	policy->cpuinfo.transition_latency = 1000000;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 	ret = bcm_create_cpufreqs_table(policy, &(b->bcm_freqs_table));
 	if (ret) {

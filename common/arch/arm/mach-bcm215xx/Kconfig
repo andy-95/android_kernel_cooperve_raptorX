@@ -45,19 +45,6 @@ choice
 		bool "EUR O2"
 	help
 		Support EUR O2 Board
-<<<<<<< HEAD
-=======
-
-	config TARGET_LOCALE_EUR_TMO
-		bool "EUR TMO"
-	help
-		Support EUR TMO Board		
-		
-	config TARGET_LOCALE_EUR_VODA
-		bool "EUR VODA"
-	help
-		Support EUR VODA Board				
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 endchoice
 
 comment "BCM21553 Board Type"

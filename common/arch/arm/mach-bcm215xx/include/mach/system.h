@@ -65,13 +65,6 @@ static inline void arch_reset(char mode, const char *cmd)
 		else if (!strcmp(cmd, "upload"))
 			writel(REBOOT_PREFIX | REBOOT_MODE_UPLOAD,
 			       BCM215XXINFORM3);
-<<<<<<< HEAD
-=======
-#if defined(CONFIG_RTC_CHN_ALARM_BOOT)
-		else if (!strcmp(cmd, "alarmboot"))
-			printk("[BSYSTAR] AlarmBoot Start!!\n");
-#endif
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 		else
 			writel(REBOOT_PREFIX | REBOOT_MODE_NONE,
 			       BCM215XXINFORM3);

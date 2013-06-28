@@ -104,10 +104,6 @@ void KRIL_GetCurrentCallHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp)
             ALL_CALL_INDEX_t *rsp = (ALL_CALL_INDEX_t*) capi2_rsp->dataBuf;
             KrilCallListState_t *rdata = (KrilCallListState_t *)pdata->bcm_ril_rsp;
             UInt8 i;
-<<<<<<< HEAD
-=======
-            Boolean RemoveJoinIndex = TRUE;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
             rdata->total_call = rsp->listSz;
             KRIL_DEBUG(DBG_INFO, "MSG_CC_GETALLCALLINDEX_RSP::total_call:%d listSz:%d\n", rdata->total_call, rsp->listSz);
             if(0 == rsp->listSz)
@@ -125,26 +121,8 @@ void KRIL_GetCurrentCallHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp)
 
             for(i = 0 ; i < rsp->listSz ; i++)
             {
-<<<<<<< HEAD
                 rdata->KRILCallState[i].index = (int)rsp->indexList[i];
                 KRIL_DEBUG(DBG_INFO, "MSG_CC_GETALLCALLINDEX_RSP::indexList:%d callIndex:%d\n", (int)rsp->indexList[i], rdata->KRILCallState[i].index);
-=======
-                if (VALID_CALL == rsp->indexList[i])
-                {
-                    CAPI2_CC_GetAllCallIndex(GetNewTID(), GetClientID());
-                    pdata->handler_state = BCM_CC_AllCallIndex;
-                    return;
-                }
-                rdata->KRILCallState[i].index = (int)rsp->indexList[i];
-                KRIL_DEBUG(DBG_INFO, "MSG_CC_GETALLCALLINDEX_RSP::indexList:%d callIndex:%d\n", (int)rsp->indexList[i], rdata->KRILCallState[i].index);
-                if (rdata->KRILCallState[i].index == sLastJoinCallIndex)
-                    RemoveJoinIndex = FALSE;
-            }
-            if (TRUE == RemoveJoinIndex)
-            {
-                KRIL_DEBUG(DBG_INFO, "MSG_CC_GETALLCALLINDEX_RSP::JoinCallIndex does not exist\n");
-                sLastJoinCallIndex = INVALID_CALL;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
             }
             CAPI2_CC_GetCallType(GetNewTID(), GetClientID(), rdata->KRILCallState[rdata->index].index);
             pdata->handler_state = BCM_CC_GetCallType;
@@ -520,11 +498,7 @@ void KRIL_DialHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp)
                 m_VoiceCallParam.clir = tdata->clir;
 				
 				// CWYoon 110827::CSP447453 Emergency call in FDN mode.					
-<<<<<<< HEAD
 				if ( tdata->isEmergency )
-=======
-				if ( (tdata->isEmergency)||(StkCall == TRUE) ) // gearn  FDN enable setup call 
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 					m_VoiceCallParam.isFdnChkSkipped = TRUE;
 				else
 					m_VoiceCallParam.isFdnChkSkipped = FALSE;
@@ -1263,24 +1237,8 @@ void KRIL_SwitchWaitingOrHoldingAndActiveHandler(void *ril_cmd, Kril_CAPI2Info_t
                 
                 if ( context->heldMPTY && (INVALID_CALL != sLastJoinCallIndex) )
                 {
-<<<<<<< HEAD
                     KRIL_DEBUG(DBG_INFO, "cached join index valid, using as held index %d\n", sLastJoinCallIndex);
                     heldIndexToUse = sLastJoinCallIndex;
-=======
-                    UInt8 listIndex;
-                    for (listIndex = 0 ; listIndex < rsp->listSz ; listIndex++)
-                    {
-                        if(sLastJoinCallIndex == rsp->indexList[listIndex])
-                        {
-                            KRIL_DEBUG(DBG_INFO, "cached join index valid, using as held index %d\n", sLastJoinCallIndex);
-                            heldIndexToUse = sLastJoinCallIndex;
-                            break;
-                        }
-                        // last Join call index is active call, swap call need the held call index
-                        KRIL_DEBUG(DBG_INFO, "cached join index valid, using as held index %d\n", rsp->indexList[0]);
-                        heldIndexToUse = context->HeldIndex;
-                    }
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
                 }
                 else
                 {

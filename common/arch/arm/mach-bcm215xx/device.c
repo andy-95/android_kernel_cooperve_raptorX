@@ -549,7 +549,6 @@ struct platform_device bcm215xx_lcdc_device = {
 };
 #endif
 
-<<<<<<< HEAD
 #define BCM_CORE_CLK_SOCLOCK	BCM21553_CORECLK_KHZ_1040
 #define BCM_CORE_CLK_LOCLOCK	BCM21553_CORECLK_KHZ_936
 #define BCM_CORECLK_TURBO	BCM21553_CORECLK_KHZ_832
@@ -558,12 +557,6 @@ struct platform_device bcm215xx_lcdc_device = {
 #define BCM_CORE_CLK_LNORMAL	BCM21553_CORECLK_KHZ_312
 #define BCM_CORE_CLK_NUCLOCK	BCM21553_CORECLK_KHZ_208
 #define BCM_CORE_CLK_SUCLOCK	BCM21553_CORECLK_KHZ_156
-=======
-#define BCM_CORECLK_TURBO	BCM21553_CORECLK_KHZ_832
-#define BCM_CORE_CLK_NORMAL	BCM21553_CORECLK_KHZ_312
-#define BCM_CORE_CLK_TURBOL	(624U*1000)
-#define BCM_CORE_CLK_TURBOC	(156U*1000)
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 #if defined(CONFIG_BCM_CPU_FREQ)
 /*********************************************************************
@@ -572,7 +565,6 @@ struct platform_device bcm215xx_lcdc_device = {
 
 /* Indices for the voltage to frequency mapping table */
 enum {
-<<<<<<< HEAD
 	BCM_SUCLOCK_MODE,
 	BCM_NUCLOCK_MODE,
 	BCM_LNORMAL_MODE,
@@ -581,31 +573,18 @@ enum {
         BCM_TURBO_MODE,
 	BCM_LOCLOCK_MODE,
         BCM_SOCLOCK_MODE,
-=======
-	BCM_NORMAL_MODE,
-	BCM_TURBOL_MODE,
-        BCM_TURBOC_MODE, 
-	BCM_TURBO_MODE,
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 };
 
 /* Voltage-Frequency mapping for BCM21553 CPU0 */
 static struct bcm_freq_tbl bcm215xx_cpu0_freq_tbl[] = {
-<<<<<<< HEAD
-	FTBL_INIT(BCM_CORE_CLK_SUCLOCK / 1000, 1160000),
-	FTBL_INIT(BCM_CORE_CLK_NUCLOCK / 1000, 1180000),
-	FTBL_INIT(BCM_CORE_CLK_LNORMAL / 1000, 1200000),
+	FTBL_INIT(BCM_CORE_CLK_SUCLOCK / 1000, 1180000),
+	FTBL_INIT(BCM_CORE_CLK_NUCLOCK / 1000, 1200000),
+	FTBL_INIT(BCM_CORE_CLK_LNORMAL / 1000, 1220000),
 	FTBL_INIT(BCM_CORE_CLK_NORMAL / 1000, 1240000),
-	FTBL_INIT(BCM_CORE_CLK_SNORMAL / 1000, 1260000),
-        FTBL_INIT(BCM_CORECLK_TURBO / 1000, 1320000),
-	FTBL_INIT(BCM_CORE_CLK_LOCLOCK / 1000, 1360000),
-	FTBL_INIT(BCM_CORE_CLK_SOCLOCK / 1000, 1400000),
-=======
-	FTBL_INIT(BCM_CORE_CLK_NORMAL / 1000, 1200000),
-	FTBL_INIT(BCM_CORE_CLK_TURBOL / 1000, 1200000),
-        FTBL_INIT(BCM_CORE_CLK_TURBOC / 1000, 1200000),
-	FTBL_INIT(BCM_CORECLK_TURBO / 1000, 1300000),
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
+	FTBL_INIT(BCM_CORE_CLK_SNORMAL / 1000, 1280000),
+        FTBL_INIT(BCM_CORECLK_TURBO / 1000, 1300000),
+	FTBL_INIT(BCM_CORE_CLK_LOCLOCK / 1000, 1340000),
+	FTBL_INIT(BCM_CORE_CLK_SOCLOCK / 1000, 1380000),
 };
 /* BCM21553 CPU info */
 static struct bcm_cpu_info bcm215xx_cpu_info[] = {
@@ -731,7 +710,6 @@ static void bcm215xx_avs_notify(int silicon_type)
 
 	if (normal >= 0)
 	{
-<<<<<<< HEAD
 		bcm215xx_cpu0_freq_tbl[BCM_SUCLOCK_MODE].cpu_voltage =
 			(u32)normal;
 		bcm215xx_cpu0_freq_tbl[BCM_NUCLOCK_MODE].cpu_voltage =
@@ -747,13 +725,6 @@ static void bcm215xx_avs_notify(int silicon_type)
                 bcm215xx_cpu0_freq_tbl[BCM_LOCLOCK_MODE].cpu_voltage =
                         (u32)normal;
                 bcm215xx_cpu0_freq_tbl[BCM_SOCLOCK_MODE].cpu_voltage =
-=======
-		bcm215xx_cpu0_freq_tbl[BCM_NORMAL_MODE].cpu_voltage =
-			(u32)normal;
-		bcm215xx_cpu0_freq_tbl[BCM_TURBOL_MODE].cpu_voltage =
-			(u32)normal;
-                bcm215xx_cpu0_freq_tbl[BCM_TURBOC_MODE].cpu_voltage =
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
                         (u32)normal;
 	}
 	if (turbo >= 0)

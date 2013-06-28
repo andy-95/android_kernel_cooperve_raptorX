@@ -81,15 +81,8 @@ extern Boolean inVoiceCall;
 //=============================================================================
 
 
-<<<<<<< HEAD
 Boolean voicePlayOutpathEnabled = FALSE;  //this is needed because DSPCMD_AUDIO_ENABLE sets/clears AMCR.AUDEN
 extern Boolean voiceInPathEnabled ;  //this is needed because DSPCMD_AUDIO_ENABLE sets/clears AMCR.AUDEN for both voiceIn and voiceOut
-=======
-//this is needed because DSPCMD_AUDIO_ENABLE sets/clears AMCR.AUDEN
-extern Boolean vopath_enabled;
-extern Boolean vipath_enabled;
-
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 Boolean controlFlagForCustomGain = FALSE;
 
 void VPSHAREDMEM_Init( void );
@@ -99,11 +92,6 @@ static Boolean dspECEnable = TRUE;
 static Boolean dspNSEnable = TRUE;
 static Boolean voiceULMute = FALSE;
 
-<<<<<<< HEAD
-=======
-static Boolean bNeedToFinshTelephonyDeinit = FALSE;
-
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 #if defined(FUSE_APPS_PROCESSOR)
 /////////////////////////////////////////////////////////////////////////////
 //!
@@ -122,18 +110,6 @@ static SysAudioParm_t* AUDIO_GetParmAccessPtr(void)
 }
 
 #define AUDIOMODE_PARM_ACCESSOR(app,mode)        ((SysAudioParm_t *)((SysAudioParm_t *)AUDIO_GetParmAccessPtr()+app*AUDIO_MODE_NUMBER))[mode]
-<<<<<<< HEAD
-=======
-
-void auddrv_FinshTelephonyDeinit( void )
-{
-	if( bNeedToFinshTelephonyDeinit == TRUE)
-	{
-		bNeedToFinshTelephonyDeinit = FALSE;
-		AUDDRV_Telephony_Deinit( );
-	}
-}
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 #endif
 //=============================================================================
 // Private function prototypes
@@ -262,11 +238,7 @@ void AUDDRV_Telephony_Init ( AUDDRV_MIC_Enum_t  mic, AUDDRV_SPKR_Enum_t speaker 
 	//control HW and flags at AP
 
 	//at beginning
-<<<<<<< HEAD
 	inVoiceCall = TRUE;  //to prevent sending DSP Audio Enable when enable voice path.
-=======
-	bNeedToFinshTelephonyDeinit = FALSE;
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 	audio_control_dsp( DSPCMD_TYPE_MUTE_DSP_UL, 0, 0, 0, 0, 0 );
 	audio_control_dsp( DSPCMD_TYPE_EC_NS_ON, FALSE, FALSE, 0, 0, 0 );
@@ -290,10 +262,6 @@ void AUDDRV_Telephony_Init ( AUDDRV_MIC_Enum_t  mic, AUDDRV_SPKR_Enum_t speaker 
 	audio_control_dsp( DSPCMD_TYPE_AUDIO_ENABLE, TRUE, 0, AUDDRV_IsCall16K( AUDDRV_GetAudioMode() ), 0, 0 );
 	//after AUDDRV_Telephony_InitHW to make SRST.
 	AUDDRV_SetVCflag(TRUE);  //let HW control logic know.
-<<<<<<< HEAD
-=======
-	inVoiceCall = TRUE;  //to prevent sending DSP Audio Enable when enable voice path.
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 	audio_control_dsp( DSPCMD_TYPE_AUDIO_CONNECT_DL, TRUE, AUDDRV_IsCall16K( AUDDRV_GetAudioMode() ), 0, 0, 0 );
 
@@ -480,21 +448,12 @@ void AUDDRV_ECreset_NLPoff(Boolean ECenable)
 // This is part of the control sequence for ending telephony audio.
 void AUDDRV_Telephony_Deinit (void )
 {
-<<<<<<< HEAD
 	Log_DebugPrintf(LOGID_AUDIO, "\n\r\t* AUDDRV_Telephony_Deinit voicePlayOutpathEnabled = %d*\n\r", voicePlayOutpathEnabled);
 #if defined(FUSE_APPS_PROCESSOR)&&!defined(BSP_ONLY_BUILD)	
 	AUDDRV_SetVCflag(FALSE);  //let HW control logic know.
 
 	// a quick fix not to disable voice path for speech playbck or recording when end the phone call.
 	if ((voicePlayOutpathEnabled == FALSE) && (voiceInPathEnabled == FALSE))
-=======
-	Log_DebugPrintf(LOGID_AUDIO, "\n\r\t* AUDDRV_Telephony_Deinit: vipath_enabled = %d, vopath_enabled = %d*\n\r", vipath_enabled, vopath_enabled);
-
-#if defined(FUSE_APPS_PROCESSOR)&&!defined(BSP_ONLY_BUILD)	
-	// a quick fix not to disable voice path for speech playback when end the phone call.
-	// a quick fix not to disable voice path for speech recording when end the phone call.
-	if (vipath_enabled==FALSE && vopath_enabled==FALSE)
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 	{
 		  //per call basis: disable the DTX by calling stack api when call disconnected
 		audio_control_generic( AUDDRV_CPCMD_ENABLE_DSP_DTX, FALSE, 0, 0, 0, 0 );
@@ -511,7 +470,6 @@ void AUDDRV_Telephony_Deinit (void )
 		//OSTASK_Sleep( 3 ); //make sure audio is off
 
 		AUDDRV_Telephony_DeinitHW( );
-<<<<<<< HEAD
 		audio_control_dsp( DSPCMD_TYPE_AUDIO_ENABLE, FALSE, 0, 0, 0, 0 );
 	}
 
@@ -521,34 +479,6 @@ void AUDDRV_Telephony_Deinit (void )
 	//at last
     voiceCallSampleRate = 8000;  //reset it to 8KHz,
 	inVoiceCall = FALSE;
-=======
-		AUDDRV_SetVCflag(FALSE);  //let HW control logic know.
-		inVoiceCall = FALSE;
-
-		audio_control_dsp( DSPCMD_TYPE_AUDIO_ENABLE, FALSE, 0, 0, 0, 0 );
-
-		//But on Android, we always get UNMUTE at the beginning of the call.
-		//Actually on Android, I cannot clear it otherwise the UL will be umuted for a short duration.
-	}
-	else
-	{
-		//keep DSP and HW running. will execute AUDDRV_Telephony_Deinit when voice recording is done.
-		bNeedToFinshTelephonyDeinit = TRUE;
-
-		if (vopath_enabled == FALSE)
-		{
-			AUDDRV_DisableHWOutput( AUDDRV_VOICE_OUTPUT, AUDDRV_REASON_HW_CTRL );
-		}
-		else
-		if (vipath_enabled == FALSE)
-		{
-			AUDDRV_DisableHWInput( AUDDRV_VOICE_INPUT, AUDDRV_REASON_HW_CTRL );
-		}
-	}
-
-	//at last
-    voiceCallSampleRate = 8000;  //reset it to 8KHz,
->>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 #endif
 	return;
 }
