@@ -110,6 +110,17 @@ typedef enum {
    TST_SET_INTEGRATE_MODE_OFF,	
    TST_GET_INTEGRATE_MODE,
    /*- Ciphering Mode sh0515.lee /  Integrity Mode sh0515.lee -*/
+<<<<<<< HEAD
+=======
+
+   TST_GET_HSDPA_PHY_CATEGORY,
+   TST_SET_HSDPA_PHY_CATEGORY_8,
+   TST_SET_HSDPA_PHY_CATEGORY_0,
+   TST_GET_HSUPA_PHY_CATEGORY,
+   TST_SET_HSUPA_PHY_CATEGORY_8,
+   TST_SET_HSUPA_PHY_CATEGORY_0,
+	
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
     TST_SUB_MODE_MAX
 
 }test_mode_sub_type;

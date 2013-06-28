@@ -191,6 +191,10 @@ void KRIL_SendSMSHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp)
                 if (rsp->InternalErrCause != RESULT_OK)
                 {
                     pdata->result = RILErrorResult(rsp->InternalErrCause);
+<<<<<<< HEAD
+=======
+					rdata->errorCode = rsp->NetworkErrCause;
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
                     pdata->handler_state = BCM_ErrorCAPI2Cmd;
                 }
                 else
@@ -206,6 +210,10 @@ void KRIL_SendSMSHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp)
                 {
                     pdata->result = RILErrorResult(rsp->InternalErrCause);
                 }
+<<<<<<< HEAD
+=======
+				rdata->errorCode = rsp->NetworkErrCause;
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
                 pdata->handler_state = BCM_ErrorCAPI2Cmd;
             }
             KRIL_SetInSendSMSHandler(FALSE);
@@ -309,11 +317,15 @@ void KRIL_SendSMSExpectMoreHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp)
             sca.Len = tdata->Len;
             memcpy(sca.Val, tdata->Val, sca.Len);
             pszMsg = (UInt8 *) tdata->Pdu;
+<<<<<<< HEAD
 #if 0
             int a;
             for(a = 0 ; a <= tdata->Length; a++)
                 KRIL_DEBUG(DBG_INFO, "pdu[%d]:0x%x\n", a, tdata->Pdu[a]);
 #endif
+=======
+
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
             KRIL_DEBUG(DBG_INFO, "Toa:%d Len:%d\n", sca.Toa, sca.Len);
             KRIL_SetInSendSMSHandler(TRUE);
             CAPI2_SMS_SendSMSPduReq(GetNewTID(), GetClientID(), tdata->Length, pszMsg, &sca);
@@ -328,6 +340,7 @@ void KRIL_SendSMSExpectMoreHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp)
             KRIL_DEBUG(DBG_INFO, "InternalErrCause:%d NetworkErrCause:0x%x submitRspType:%d tpMr:%d\n", rsp->InternalErrCause, rsp->NetworkErrCause, rsp->submitRspType, rsp->tpMr);
             if(MS_MN_SMS_NO_ERROR == rsp->NetworkErrCause)
             {
+<<<<<<< HEAD
                 rdata->messageRef = rsp->tpMr;
                 rdata->errorCode = rsp->NetworkErrCause;
                 pdata->handler_state = BCM_FinishCAPI2Cmd;
@@ -472,6 +485,34 @@ void KRIL_SendSMSExpectMoreHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp)
                 pdata->result = RILErrorResult(rsp->InternalErrCause);
                 pdata->handler_state = BCM_ErrorCAPI2Cmd;
             }
+=======
+                if (rsp->InternalErrCause != RESULT_OK)
+                {
+                    pdata->result = RILErrorResult(rsp->InternalErrCause);
+                    rdata->errorCode = rsp->NetworkErrCause;
+                    pdata->handler_state = BCM_ErrorCAPI2Cmd;
+                }
+                else
+                {
+                    rdata->messageRef = rsp->tpMr;
+                    rdata->errorCode = rsp->NetworkErrCause;
+                    pdata->handler_state = BCM_FinishCAPI2Cmd;
+                }
+            }
+            else
+            {
+                if (rsp->InternalErrCause != RESULT_OK)
+                {
+                    pdata->result = RILErrorResult(rsp->InternalErrCause);
+                }
+                rdata->errorCode = rsp->NetworkErrCause;
+                pdata->handler_state = BCM_ErrorCAPI2Cmd;
+
+            }
+
+			KRIL_DEBUG(DBG_INFO, "[KRIL_SendSMSExpectMoreHandler] errorCode=%d, result=%d, handler_state=0x%lX\n", rdata->errorCode, pdata->result,pdata->handler_state);
+
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
             if (KRIL_GetSendSMSNumber() > 0) // if the SMS have more bodies, need to trigger the cmd queue event to process next SMS body
             {
                 KRIL_SetInSendSMSHandler(FALSE);
@@ -506,7 +547,10 @@ void KRIL_SendSMSExpectMoreHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp)
             sMoreMessageToSend = FALSE;
             pdata->handler_state = sSMSExpectMoreState;
             sSMSExpectMoreState = 0;
+<<<<<<< HEAD
             pdata->handler_state = BCM_FinishCAPI2Cmd;
+=======
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
             break;
         }
  
@@ -518,7 +562,10 @@ void KRIL_SendSMSExpectMoreHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp)
         }
     }
 }
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 
 void KRIL_WriteSMSToSIMHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp)
@@ -1064,6 +1111,7 @@ void KRIL_ReportSMSMemoryStatusHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rs
 
         case BCM_SMS_SendMemAvailInd:
         {
+<<<<<<< HEAD
             SIM_EFILE_DATA_t *rsp = (SIM_EFILE_DATA_t *)capi2_rsp->dataBuf;
             if (0xFE == *rsp->ptr)
             {
@@ -1075,6 +1123,11 @@ void KRIL_ReportSMSMemoryStatusHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rs
                 pdata->handler_state = BCM_FinishCAPI2Cmd;
             }
 
+=======
+            SIM_EFILE_UPDATE_RESULT_t *rsp = (SIM_EFILE_UPDATE_RESULT_t *)capi2_rsp->dataBuf;
+            KRIL_DEBUG(DBG_INFO, "Update EF-SMSS result:%d\n", rsp->result);
+            CAPI2_SMS_SendMemAvailInd(GetNewTID(), GetClientID());
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
             if (CheckFreeSMSIndex() == SMS_FULL)
             {
                 KRIL_SendNotify(RIL_UNSOL_SIM_SMS_STORAGE_FULL, NULL, 0);
@@ -1083,7 +1136,11 @@ void KRIL_ReportSMSMemoryStatusHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rs
             {
                 KRIL_SendNotify(RIL_UNSOL_SIM_SMS_STORAGE_AVAILALE, NULL, 0);
             }
+<<<<<<< HEAD
             
+=======
+            pdata->handler_state = BCM_RESPCAPI2Cmd;
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
             break;
         }
 

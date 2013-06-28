@@ -35,7 +35,11 @@ static struct proc_dir_entry *g_proc_dir_entry = NULL ;	///< procfs file
 static void SetConfigDefaults( void )
 {
 	g_config.logcat_dump_dev  = BCMLOG_OUTDEV_NONE ;	// logcat crash dump disabled
+<<<<<<< HEAD
 	g_config.runlog_dev       = BCMLOG_OUTDEV_RNDIS ;	// run-time log to RNDIS/MTT
+=======
+	g_config.runlog_dev       = BCMLOG_OUTDEV_NONE ;	// set default MTT log path to NONE
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 	g_config.cp_crashdump_dev = BCMLOG_CPCRASH_MTD ;	// CP dump to SD card
 }
 
@@ -150,6 +154,10 @@ static ssize_t proc_write(struct file *file, const char *buffer, unsigned long c
 			break ;
 		case 'g': 	
 			g_config.logcat_dump_dev = BCMLOG_OUTDEV_NONE ;
+<<<<<<< HEAD
+=======
+			g_config.runlog_dev = BCMLOG_OUTDEV_NONE ;
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 			break ;
 		case 'h': 
 			BCMLOG_SaveConfig( 1 ) ;

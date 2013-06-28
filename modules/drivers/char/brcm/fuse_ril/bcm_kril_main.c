@@ -33,6 +33,10 @@ static struct class *kril_class;
 #ifdef CONFIG_HAS_WAKELOCK
 struct wake_lock kril_rsp_wake_lock;
 struct wake_lock kril_notify_wake_lock;
+<<<<<<< HEAD
+=======
+struct wake_lock kril_result_wake_lock;
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 #endif
 extern Int32 KRIL_GetRsp(struct file *filp, UInt32 cmd, UInt32 arg);
 extern bcm_kril_dev_result_t bcm_dev_results[TOTAL_BCMDEVICE_NUM];
@@ -133,7 +137,20 @@ static unsigned int KRIL_Poll(struct file *filp, poll_table *wait)
     KRIL_Param_t *priv = filp->private_data;
     UInt32 mask = 0;
     UInt32 flags;
+<<<<<<< HEAD
 
+=======
+    #ifdef CONFIG_HAS_WAKELOCK
+    if (wake_lock_active(&kril_result_wake_lock) != 0 && TRUE == list_empty(&(gKrilResultQueue.list))) // if wake lock exist and result queue is empty, need to do wake_unlock
+    {
+        do
+        {
+            KRIL_DEBUG(DBG_INFO, "wake_lock_active(&kril_result_wake_lock):%d wake_unlock\n", wake_lock_active(&kril_result_wake_lock));
+            wake_unlock(&kril_result_wake_lock);
+        } while (wake_lock_active(&kril_result_wake_lock) != 0 && TRUE == list_empty(&(gKrilResultQueue.list))); // don't need to unlock wake_lock if no lock state and result is empty
+    }
+#endif
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
    	poll_wait(filp, &gKrilParam.read_wait, wait);
 
    	spin_lock_irqsave(&priv->recv_lock, flags);
@@ -188,6 +205,10 @@ static int KRIL_Init(void)
 #ifdef CONFIG_HAS_WAKELOCK
     wake_lock_init(&kril_rsp_wake_lock, WAKE_LOCK_SUSPEND, "kril_rsp_wake_lock");
     wake_lock_init(&kril_notify_wake_lock, WAKE_LOCK_SUSPEND, "kril_notify_wake_lock");
+<<<<<<< HEAD
+=======
+    wake_lock_init(&kril_result_wake_lock, WAKE_LOCK_SUSPEND, "kril_result_wake_lock");
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 #endif
     //init kril parameter
     KRIL_InitHandler();

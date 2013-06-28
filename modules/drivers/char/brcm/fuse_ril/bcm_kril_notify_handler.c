@@ -39,6 +39,10 @@ Boolean StkIcon= FALSE;  // gearn not support icon TR
 // For Network
 static MSRegState_t  sCreg_state = REG_STATE_NO_SERVICE;
 static MSRegState_t  sCgreg_state = REG_STATE_NO_SERVICE;
+<<<<<<< HEAD
+=======
+static MSNetAccess_t  egprs_supported_state = NOT_APPLICABLE; //[2011-10-04][dw47.kim] add egprs_supported_state
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 MSRegInfo_t  gRegInfo;
 MSUe3gStatusInd_t  gUE3GInfo;
 
@@ -4861,10 +4865,19 @@ void ProcessGPRSStatus(void* data)
     {
         // for PS only registration, we may not receive MSG_REG_GSM_IND, so check for RAT change 
         // here as well
+<<<<<<< HEAD
         if(sCgreg_state != pMSRegInfo->regState || gRegInfo.netInfo.rat != pMSRegInfo->netInfo.rat)
         {
             sCgreg_state = pMSRegInfo->regState;
            gRegInfo.netInfo.rat = pMSRegInfo->netInfo.rat;
+=======
+        //[2011-10-04][dw47.kim] add egprs_supported_state to compare old egprs_supported_state and new egprs_supported_state
+        if(sCgreg_state != pMSRegInfo->regState || gRegInfo.netInfo.rat != pMSRegInfo->netInfo.rat || egprs_supported_state != pMSRegInfo->netInfo.egprs_supported )
+        {
+            sCgreg_state = pMSRegInfo->regState;
+           gRegInfo.netInfo.rat = pMSRegInfo->netInfo.rat;
+	   				egprs_supported_state = pMSRegInfo->netInfo.egprs_supported; //[2011-10-04][dw47.kim] add egprs_supported_state
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
             if ( (REG_STATE_SEARCHING == pMSRegInfo->regState) && KRIL_GetHandling2GOnlyRequest() )
             {
                 KRIL_DEBUG(DBG_INFO, "MSG_REG_GPRS_IND - handling 2G only change request - no network change notif sent\n" );
@@ -5090,8 +5103,11 @@ void  ProcessSuppSvcNotification(void * data)
     KRIL_DEBUG(DBG_INFO, "call_state:%d cug_index:%d callingName:%s\n", theNotifyParamPtr->ect_rdn_info.call_state,  theNotifyParamPtr->cug_index, (char *)theNotifyParamPtr->callingName);
     theCallType = KRIL_GetCallType(theSsNotifyPtr->index);
 
+<<<<<<< HEAD
 	ndata->type = theCallType;
 	
+=======
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
     if (MOVOICE_CALL == theCallType ||
         MODATA_CALL == theCallType ||
         MOFAX_CALL == theCallType)
@@ -5403,6 +5419,7 @@ void  ProcessSSNotification(Kril_CAPI2Info_t * data)
     SS_NotifySs_t*  theNotifyParamPtr = &theSsNotifyPtr->notifySs;
     CCallType_t    theCallType;
     KrilSuppSvcNotification_t *ndata = kmalloc(sizeof(KrilSuppSvcNotification_t), GFP_KERNEL);
+<<<<<<< HEAD
     memset(ndata, sizeof(KrilSuppSvcNotification_t), 0);
     ndata->code = 0xFF; // If code is 0xff, we don't send the notification to URIL
 
@@ -5411,6 +5428,16 @@ void  ProcessSSNotification(Kril_CAPI2Info_t * data)
 
 	ndata->type = theCallType;
 
+=======
+    memset(ndata, 0x00, sizeof(KrilSuppSvcNotification_t));
+    ndata->code = 0xFF; // If code is 0xff, we don't send the notification to URIL
+
+    KRIL_DEBUG(DBG_ERROR, "DialogId:%d include:%d ssCode:%d cug_index:%d \n", data->DialogId, theNotifyParamPtr->include, theNotifyParamPtr->ssCode, theNotifyParamPtr->cugIndex);
+	// get call type from notification directly
+	theCallType = theSsNotifyPtr->callType;	
+	ndata->type = theCallType;
+//    theCallType = KRIL_GetCallType(data->DialogId);
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
     if (MOVOICE_CALL == theCallType ||
         MODATA_CALL == theCallType ||
         MOFAX_CALL == theCallType)
@@ -5489,7 +5516,11 @@ void  ProcessSSNotification(Kril_CAPI2Info_t * data)
         }
     }
 
+<<<<<<< HEAD
     if ((MTVOICE_CALL == theCallType || MTDATA_CALL == theCallType || MTFAX_CALL == theCallType || UNKNOWN_TY == theCallType) &&
+=======
+    if ((MTVOICE_CALL == theCallType || MTDATA_CALL == theCallType || MTFAX_CALL == theCallType) &&
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
             (theNotifyParamPtr->include & 0x04) && 
             ((theNotifyParamPtr->ssNotific & SS_NOTIF_INCOMING_CALL_IS_FWD_CALL) ==
                                                       SS_NOTIF_INCOMING_CALL_IS_FWD_CALL))
@@ -5530,7 +5561,11 @@ void  ProcessSSNotification(Kril_CAPI2Info_t * data)
        ndata->notificationType = 1;
        ndata->code = 4;
     }
+<<<<<<< HEAD
     else if (theNotifyParamPtr->include & (0x01 << 9)) //Name Indicator
+=======
+    else if (theNotifyParamPtr->include & (0x01 << 8)) //Name Indicator
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
     {
        ndata->notificationType = 1;
        if (theNotifyParamPtr->ectInd.ectCallState == SS_ECT_CALL_STATE_ALERTING)
@@ -5575,7 +5610,11 @@ void ProcessNotification(Kril_CAPI2Info_t *notify)
             {
             CallReceiveMsg_t * pIncomingCall = (CallReceiveMsg_t *) notify->dataBuf;
             KRIL_SetIncomingCallIndex(pIncomingCall->callIndex);
+<<<<<<< HEAD
             KRIL_SetCallNumPresent(pIncomingCall->callIndex, pIncomingCall->callingInfo.present);
+=======
+            KRIL_SetCallNumPresent(pIncomingCall->callIndex, pIncomingCall->callingInfo.present, pIncomingCall->callingInfo.c_num);
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
             KRIL_SendNotify(RIL_UNSOL_RESPONSE_CALL_STATE_CHANGED, NULL, 0);
             break;
             }
@@ -5584,7 +5623,11 @@ void ProcessNotification(Kril_CAPI2Info_t *notify)
         {
             VoiceCallWaitingMsg_t * pWaitingCall = (VoiceCallWaitingMsg_t *) notify->dataBuf;
             KRIL_SetWaitingCallIndex(pWaitingCall->callIndex);
+<<<<<<< HEAD
             KRIL_SetCallNumPresent(pWaitingCall->callIndex, pWaitingCall->callingInfo.present);
+=======
+            KRIL_SetCallNumPresent(pWaitingCall->callIndex, pWaitingCall->callingInfo.present, pWaitingCall->callingInfo.c_num);
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
             KRIL_SendNotify(RIL_UNSOL_RESPONSE_CALL_STATE_CHANGED, NULL, 0);
             break;
         }
@@ -5773,8 +5816,13 @@ void ProcessNotification(Kril_CAPI2Info_t *notify)
             KRIL_DEBUG(DBG_INFO, "MSG_VOICECALL_RELEASE_IND::cause:%lu\n", (UInt32)ndata->exitCause);
             KRIL_SetLastCallFailCause( KRIL_MNCauseToRilError(ndata->exitCause) );
             if (ndata->exitCause != MNCAUSE_RADIO_LINK_FAILURE_APPEARED ||  // Add the call status notification here, replace the call status change in MSG_CALL_STATUS_IND for CC_CALL_DISCONNECT
+<<<<<<< HEAD
                     (KRIL_GetCallType(ndata->callIndex) !=MOVOICE_CALL && // send RIL_UNSOL_RESPONSE_CALL_STATE_CHANGED only not MO call and not dialing or alerting state
                     (KRIL_GetCallState(ndata->callIndex) != RIL_CALL_DIALING || KRIL_GetCallState(ndata->callIndex) != RIL_CALL_ALERTING)))
+=======
+                    !(KRIL_GetCallType(ndata->callIndex) ==MOVOICE_CALL && // send RIL_UNSOL_RESPONSE_CALL_STATE_CHANGED only not MO call and not dialing or alerting state
+                    (KRIL_GetCallState(ndata->callIndex) == RIL_CALL_DIALING || KRIL_GetCallState(ndata->callIndex) == RIL_CALL_ALERTING)))
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
                 KRIL_SendNotify(RIL_UNSOL_RESPONSE_CALL_STATE_CHANGED, NULL, 0);
             
             break;

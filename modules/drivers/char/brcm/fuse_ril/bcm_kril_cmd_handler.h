@@ -255,7 +255,11 @@ CCallType_t KRIL_GetCallType(int index);
 void KRIL_SetCallState(int index, RIL_CallState theCallState);
 RIL_CallState KRIL_GetCallState(int index);
 void KRIL_ClearCallNumPresent(void);
+<<<<<<< HEAD
 void KRIL_SetCallNumPresent(int index, PresentationInd_t present);
+=======
+void KRIL_SetCallNumPresent(int index, PresentationInd_t present, UInt8 c_num);
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 PresentationInd_t KRIL_GetCallNumPresent(int index);
 void KRIL_SetInHoldCallHandler(Boolean CallHandler);
 Boolean KRIL_GetInHoldCallHandler(void);

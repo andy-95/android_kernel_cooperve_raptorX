@@ -222,6 +222,7 @@ cVoid chal_audioaopath_Mute(
 		Boolean		mute_right
 		)
 {
+<<<<<<< HEAD
 	//chal_audio_aopath_t * dev = (chal_audio_aopath_t *) handle;
 	if(mute_left==TRUE)
 	{
@@ -229,6 +230,17 @@ cVoid chal_audioaopath_Mute(
 		// hard code mode to 6??
 		BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ALSLOPGAIN_R, ALSLOPMOD, SLOPE_GAIN_MODE);
 		BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ALSLOPGAIN_R, ALTARGETGAIN, 0);
+=======
+	UInt32 reg_addr;
+	DSP_AUDIO_ALSLOPGAIN_R_TYPE reg_value = 0;
+
+	//chal_audio_aopath_t * dev = (chal_audio_aopath_t *) handle;
+	if(mute_left==TRUE)
+	{
+		reg_addr = sAOPath.base + DSP_AUDIO_ALSLOPGAIN_R_OFFSET;
+		reg_value = DSP_AUDIO_ALSLOPGAIN_R_ALSLOPGAINEN_MASK | (SLOPE_GAIN_MODE << DSP_AUDIO_ALSLOPGAIN_R_ALSLOPMOD_SHIFT);
+		*(volatile UInt16 *) reg_addr = reg_value;
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 		Log_DebugPrintf(LOGID_SOC_AUDIO_DETAIL, "chal_audioaopath_Mute: left \n");
 		{
@@ -239,10 +251,16 @@ cVoid chal_audioaopath_Mute(
 	}
 	if(mute_right==TRUE)
 	{
+<<<<<<< HEAD
 		BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ARSLOPGAIN_R, ARSLOPGAINEN, 1);
 		// hard code mode to 6??
 		BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ARSLOPGAIN_R, ARSLOPMOD, SLOPE_GAIN_MODE);
 		BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ARSLOPGAIN_R, ARTARGETGAIN, 0);
+=======
+		reg_addr = sAOPath.base + DSP_AUDIO_ARSLOPGAIN_R_OFFSET;
+		reg_value = DSP_AUDIO_ARSLOPGAIN_R_ARSLOPGAINEN_MASK | (SLOPE_GAIN_MODE << DSP_AUDIO_ARSLOPGAIN_R_ARSLOPMOD_SHIFT);
+		*(volatile UInt16 *) reg_addr = reg_value;
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 		Log_DebugPrintf(LOGID_SOC_AUDIO_DETAIL, "chal_audioaopath_Mute: right \n");
 	}
@@ -363,7 +381,12 @@ cVoid chal_audioaopath_SetSlopeGain(
 		cInt32		right_gain
 		)
 {
+<<<<<<< HEAD
 	//chal_audio_aopath_t * dev = (chal_audio_aopath_t *) handle;
+=======
+	UInt32 reg_addr;
+	DSP_AUDIO_ALSLOPGAIN_R_TYPE reg_value = 0;
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 	cInt16 gain=0;
 
 	if(left_gain>0 || right_gain>0)
@@ -374,11 +397,19 @@ cVoid chal_audioaopath_SetSlopeGain(
 	if (gain<0)
 		gain=0;
 
+<<<<<<< HEAD
 	BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ALSLOPGAIN_R, ALSLOPGAINEN, 1);
 	// hard code mode to 6??
 	BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ALSLOPGAIN_R, ALSLOPMOD, SLOPE_GAIN_MODE);
 	BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ALSLOPGAIN_R, ALTARGETGAIN, gain);
 	
+=======
+	reg_addr = sAOPath.base + DSP_AUDIO_ALSLOPGAIN_R_OFFSET;
+	reg_value = DSP_AUDIO_ALSLOPGAIN_R_ALSLOPGAINEN_MASK | (SLOPE_GAIN_MODE << DSP_AUDIO_ALSLOPGAIN_R_ALSLOPMOD_SHIFT);
+	reg_value = reg_value | ( gain << DSP_AUDIO_ALSLOPGAIN_R_ALTARGETGAIN_SHIFT );
+	*(volatile UInt16 *) reg_addr = reg_value;
+
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 	Log_DebugPrintf(LOGID_SOC_AUDIO_DETAIL, "chal_audioaopath_SetSlopeGain: left gain=0x%x \n", gain );
 
 	// right gain
@@ -386,10 +417,17 @@ cVoid chal_audioaopath_SetSlopeGain(
 	if (gain<0)
 		gain=0;
 
+<<<<<<< HEAD
 	BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ARSLOPGAIN_R, ARSLOPGAINEN, 1);
 	// hard code mode to 6??
 	BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ARSLOPGAIN_R, ARSLOPMOD, SLOPE_GAIN_MODE);
 	BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ARSLOPGAIN_R, ARTARGETGAIN, gain);
+=======
+	reg_addr = sAOPath.base + DSP_AUDIO_ARSLOPGAIN_R_OFFSET;
+	reg_value = DSP_AUDIO_ARSLOPGAIN_R_ARSLOPGAINEN_MASK | (SLOPE_GAIN_MODE << DSP_AUDIO_ARSLOPGAIN_R_ARSLOPMOD_SHIFT);
+	reg_value = reg_value | ( gain << DSP_AUDIO_ARSLOPGAIN_R_ARTARGETGAIN_SHIFT );
+	*(volatile UInt16 *) reg_addr = reg_value;
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 	Log_DebugPrintf(LOGID_SOC_AUDIO_DETAIL, "chal_audioaopath_SetSlopeGain: right gain=0x%x \n", gain );
 }
@@ -406,10 +444,20 @@ cVoid chal_audioaopath_SetSlopeGainLeftHex(
 		cInt32		gain_hex
 		)
 {
+<<<<<<< HEAD
 	BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ALSLOPGAIN_R, ALSLOPGAINEN, 1);
 	// hard code mode to 6??
 	BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ALSLOPGAIN_R, ALSLOPMOD, SLOPE_GAIN_MODE);
 	BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ALSLOPGAIN_R, ALTARGETGAIN, gain_hex);
+=======
+	UInt32 reg_addr;
+	DSP_AUDIO_ALSLOPGAIN_R_TYPE reg_value = 0;
+
+	reg_addr = sAOPath.base + DSP_AUDIO_ALSLOPGAIN_R_OFFSET;
+	reg_value = DSP_AUDIO_ALSLOPGAIN_R_ALSLOPGAINEN_MASK | (SLOPE_GAIN_MODE << DSP_AUDIO_ALSLOPGAIN_R_ALSLOPMOD_SHIFT);
+	reg_value = reg_value | ( gain_hex << DSP_AUDIO_ALSLOPGAIN_R_ALTARGETGAIN_SHIFT );
+	*(volatile UInt16 *) reg_addr = reg_value;
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 	Log_DebugPrintf(LOGID_SOC_AUDIO_DETAIL, "chal_audioaopath_SetSlopeGainLeftHex: gain=0x%x \n", gain_hex );
 
@@ -432,10 +480,20 @@ cVoid chal_audioaopath_SetSlopeGainRightHex(
 		cInt32		gain_hex
 		)
 {
+<<<<<<< HEAD
 	BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ARSLOPGAIN_R, ARSLOPGAINEN, 1);
 	// hard code mode to 6??
 	BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ARSLOPGAIN_R, ARSLOPMOD, SLOPE_GAIN_MODE);
 	BRCM_WRITE_REG_FIELD(sAOPath.base, DSP_AUDIO_ARSLOPGAIN_R, ARTARGETGAIN, gain_hex);
+=======
+	UInt32 reg_addr;
+	DSP_AUDIO_ALSLOPGAIN_R_TYPE reg_value = 0;
+
+	reg_addr = sAOPath.base + DSP_AUDIO_ARSLOPGAIN_R_OFFSET;
+	reg_value = DSP_AUDIO_ARSLOPGAIN_R_ARSLOPGAINEN_MASK | (SLOPE_GAIN_MODE << DSP_AUDIO_ARSLOPGAIN_R_ARSLOPMOD_SHIFT);
+	reg_value = reg_value | ( gain_hex << DSP_AUDIO_ARSLOPGAIN_R_ARTARGETGAIN_SHIFT );
+	*(volatile UInt16 *) reg_addr = reg_value;
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 
 	Log_DebugPrintf(LOGID_SOC_AUDIO_DETAIL, "chal_audioaopath_SetSlopeGainRightHex: gain=0x%x \n", gain_hex );
 }

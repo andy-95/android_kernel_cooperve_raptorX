@@ -263,8 +263,13 @@ static long ATC_KERNEL_Ioctl(struct file *filp, unsigned int cmd, UInt32 arg )
                 {
                     ATC_KERNEL_TRACE(( "ATC_KERNEL_Ioctl() - copy_from_user() had error\n" ) );
                     retVal = -1;
+<<<<<<< HEAD
 					kfree(newCmdQueueItem);
 					kfree(newCmdQueueItem->mATCmd.fATCmdStr);
+=======
+                    kfree(newCmdQueueItem->mATCmd.fATCmdStr);
+                    kfree(newCmdQueueItem);
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
                     break;
                 }
 

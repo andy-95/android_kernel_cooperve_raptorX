@@ -16,7 +16,13 @@
 #define _K_SRIL_HANDLER_H
 
 #include "u_sril.h"
+<<<<<<< HEAD
 
+=======
+#define HSxPA_CATEGORY_0 0
+#define HSxPA_CATEGORY_8 8
+#define HSxPA_CATEGORY_ERROR 99
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 void KRIL_SRIL_SetCellBroadcastHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp);
 void KRIL_SRIL_GetCellBroadcastHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp);
 #if 1
@@ -40,7 +46,11 @@ void KRIL_SRIL_SetBandHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp, KrilSr
 /*- Band Selection sh0515.lee -*/
 /*+ Ciphering Mode sh0515.lee /  Integrity Mode sh0515.lee +*/
 void KRIL_SRIL_SetStackClasssMarkHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp, KrilStackNvramClassMark_t *tdata);CAPI2_MS_Element_t KRIL_SRIL_GetStackClasssMarkHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp, KrilStackNvramClassMark_t *tdata);
+<<<<<<< HEAD
 /*- Ciphering Mode sh0515.lee /  Integrity Mode sh0515.lee -*/
+=======
+/*- Ciphering Mode sh0515.lee /  Integrity Mode sh0515.lee -*/int KRIL_SRIL_requestOemSvcGetHsdpaPhyCategoryHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp);void KRIL_SRIL_requestOemSvcSetHsdpaPhyCategoryHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp,  int hsdpa_phy_cat );int KRIL_SRIL_requestOemSvcGetHsupaPhyCategoryHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp);void KRIL_SRIL_requestOemSvcSetHsupaPhyCategoryHandler(void *ril_cmd, Kril_CAPI2Info_t *capi2_rsp,  int hsupa_phy_cat );
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 #endif  // _K_SRIL_HANDLER_H
 
 

@@ -20,6 +20,7 @@
  * expects the frequency value to be in kHz.
  */
 enum {
+<<<<<<< HEAD
         BCM21553_CORECLK_KHZ_156 = (156U * 1000),
         BCM21553_CORECLK_KHZ_208 = (208U * 1000),
 	BCM21553_CORECLK_KHZ_312 = (312U * 1000),
@@ -28,6 +29,10 @@ enum {
 	BCM21553_CORECLK_KHZ_832 = (832U * 1000),
         BCM21553_CORECLK_KHZ_936 = (936U * 1000),
         BCM21553_CORECLK_KHZ_1040 = (1040U * 1000),
+=======
+	BCM21553_CORECLK_KHZ_312 = (312U * 1000),
+	BCM21553_CORECLK_KHZ_832 = (832U * 1000),
+>>>>>>> c2374c06a8be2f0974e53de8e66c0d3bc5c404d6
 };
 
 struct bcm21553_cpufreq_gov_plat {
