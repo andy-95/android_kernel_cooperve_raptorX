@@ -69,6 +69,9 @@ choice
 	config DEFAULT_NOOP
 		bool "No-op"
 
+        config DEFAULT_SIO
+                bool "sio" if IOSCHED_SIO=y
+
 endchoice
 
 config DEFAULT_IOSCHED
