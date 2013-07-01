@@ -577,14 +577,14 @@ enum {
 
 /* Voltage-Frequency mapping for BCM21553 CPU0 */
 static struct bcm_freq_tbl bcm215xx_cpu0_freq_tbl[] = {
-	FTBL_INIT(BCM_CORE_CLK_SUCLOCK / 1000, 1180000),
-	FTBL_INIT(BCM_CORE_CLK_NUCLOCK / 1000, 1200000),
-	FTBL_INIT(BCM_CORE_CLK_LNORMAL / 1000, 1220000),
-	FTBL_INIT(BCM_CORE_CLK_NORMAL / 1000, 1240000),
-	FTBL_INIT(BCM_CORE_CLK_SNORMAL / 1000, 1280000),
-        FTBL_INIT(BCM_CORECLK_TURBO / 1000, 1300000),
-	FTBL_INIT(BCM_CORE_CLK_LOCLOCK / 1000, 1340000),
-	FTBL_INIT(BCM_CORE_CLK_SOCLOCK / 1000, 1380000),
+	FTBL_INIT(BCM_CORE_CLK_SUCLOCK / 1000, 1160000),
+	FTBL_INIT(BCM_CORE_CLK_NUCLOCK / 1000, 1180000),
+	FTBL_INIT(BCM_CORE_CLK_LNORMAL / 1000, 1200000),
+	FTBL_INIT(BCM_CORE_CLK_NORMAL / 1000, 1220000),
+	FTBL_INIT(BCM_CORE_CLK_SNORMAL / 1000, 1240000),
+        FTBL_INIT(BCM_CORECLK_TURBO / 1000, 1280000),
+	FTBL_INIT(BCM_CORE_CLK_LOCLOCK / 1000, 1320000),
+	FTBL_INIT(BCM_CORE_CLK_SOCLOCK / 1000, 1360000),
 };
 /* BCM21553 CPU info */
 static struct bcm_cpu_info bcm215xx_cpu_info[] = {
@@ -637,17 +637,17 @@ struct platform_device bcm21553_cpufreq_gov = {
  *                        DATA FOR AVS DRIVER                        *
  *********************************************************************/
 
-#define NM2_FF_VOLTAGE_NORMAL	1180000
-#define NM2_TT_VOLTAGE_NORMAL	1240000
-#define NM2_SS_VOLTAGE_NORMAL	1300000
+#define NM2_FF_VOLTAGE_NORMAL	1140000
+#define NM2_TT_VOLTAGE_NORMAL	1200000
+#define NM2_SS_VOLTAGE_NORMAL	1260000
 
-#define NM2_FF_VOLTAGE_TURBO	1220000
-#define NM2_TT_VOLTAGE_TURBO	1300000
-#define NM2_SS_VOLTAGE_TURBO	1360000
+#define NM2_FF_VOLTAGE_TURBO	1180000
+#define NM2_TT_VOLTAGE_TURBO	1260000
+#define NM2_SS_VOLTAGE_TURBO	1320000
 
-#define NM_FF_VOLTAGE		1320000
-#define NM_TT_VOLTAGE		1320000
-#define NM_SS_VOLTAGE		1360000
+#define NM_FF_VOLTAGE		1280000
+#define NM_TT_VOLTAGE		1280000
+#define NM_SS_VOLTAGE		1320000
 
 #define FF_THRESHOLD 445
 #define SS_THRESHOLD 395
@@ -711,25 +711,29 @@ static void bcm215xx_avs_notify(int silicon_type)
 	if (normal >= 0)
 	{
 		bcm215xx_cpu0_freq_tbl[BCM_SUCLOCK_MODE].cpu_voltage =
-			(u32)normal;
+			1160000;
 		bcm215xx_cpu0_freq_tbl[BCM_NUCLOCK_MODE].cpu_voltage =
-			(u32)normal;
+			1180000;
 		bcm215xx_cpu0_freq_tbl[BCM_LNORMAL_MODE].cpu_voltage =
-			(u32)normal;
+			1200000;
 		bcm215xx_cpu0_freq_tbl[BCM_NORMAL_MODE].cpu_voltage =
-			(u32)normal;
+			1220000;
 		bcm215xx_cpu0_freq_tbl[BCM_SNORMAL_MODE].cpu_voltage =
-			(u32)normal;
+			1240000;
                 bcm215xx_cpu0_freq_tbl[BCM_TURBO_MODE].cpu_voltage =
-                        (u32)normal;
+                        1280000;
                 bcm215xx_cpu0_freq_tbl[BCM_LOCLOCK_MODE].cpu_voltage =
-                        (u32)normal;
+                        1320000;
                 bcm215xx_cpu0_freq_tbl[BCM_SOCLOCK_MODE].cpu_voltage =
-                        (u32)normal;
+                        1360000;
 	}
 	if (turbo >= 0)
 		bcm215xx_cpu0_freq_tbl[BCM_TURBO_MODE].cpu_voltage =
-			(u32)turbo;
+			1300000;
+                bcm215xx_cpu0_freq_tbl[BCM_LOCLOCK_MODE].cpu_voltage =
+                        1340000;
+                bcm215xx_cpu0_freq_tbl[BCM_SOCLOCK_MODE].cpu_voltage =
+                        1380000;
 }
 #else
 #define bcm215xx_avs_notify NULL
