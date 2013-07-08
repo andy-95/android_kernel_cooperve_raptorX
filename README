@@ -1,0 +1,19 @@
+How to build ThunderKernel for cooperve!
+By Lopicl.00@XDA-Developers
+
+1. Visit http://www.mentor.com/embedded-software/codesourcery and click on Download Lite Edition for download codesourcery 2009q3-68.
+
+2. Once downloaded codesourcery (tar.gz recommended) extract it on your home folder. Enter the extracted folder and search for bin directory. That directory will be the CROSS_COMPILE bin folder (there should be arm-none-eabi binaries).
+
+3. Download my kernel source from my github https://github.com/Lopicl/android_samsung_thunderkernel_cooperve.
+
+4. Extract it in "~/android/kernel/ThunderKernel".
+
+5. Open terminal and type "cd ~/android/kernel/ThunderKernel".
+
+6. Now type "export ARCH=arm" and then "export CROSS_COMPILE=~/$codesourcery-directory/bin/arm-none-eabi-" substitute $codesourcery-directory with your codesourcery directory.
+
+7. Now type "make thunderkernel_cooperve_defconfig" and then "make -j(number of cpu threads to use)" for example "make -j4" for a quad-core cpu, or "make -j2" for a dual-core cpu.
+
+8. Now the kernel is built! Use the zImage in common/arch/arm/boot and the RFS ramdisk on my github (https://github.com/Lopicl/ramdisk_cm7) for pack a boot.img. NOTE! USE LZMA COMPRESSION FOR RAMDISK!!!
+
