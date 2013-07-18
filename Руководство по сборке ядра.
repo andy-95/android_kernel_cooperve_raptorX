@@ -1,0 +1,20 @@
+Руководство по сборке ThunderKernel для Gt-s5830i
+By Lopicl.00@XDA-Developers ( Переведено needsst@4pda)
+
+1. Зайдите на http://www.mentor.com/embedded-software/codesourcery и загрузите Lite Edition для загрузки codesourcery 2009q3-68.
+
+2. После загрузки codesourcery (рекомендуемый формат - tar.gz ) разархивируйте его в свою домашнюю папку.  Зайдите в распакованную папку и найдите директорию bin. Эта директория является CROSS_COMPILE папкой bin  (состоит из arm-none-eabi бинарных файлов).
+
+3. Загрузите файлы кода для сборки отсюда : https://github.com/Lopicl/android_samsung_thunderkernel_cooperve.
+
+4. Распакуйте это в "~/android/kernel/ThunderKernel".
+
+5. Откройте терминал и введите: "cd ~/android/kernel/ThunderKernel".
+
+6. Теперь вводим "export ARCH=arm", а затем: "export CROSS_COMPILE=~/$codesourcery-directory/bin/arm-none-eabi-" замените $codesourcery-directory в размещении вашего codesourcery.
+
+7. Теперь вводим "make thunderkernel_cooperve_defconfig", а затем "make -j(здесь число ядер вашего Cpu используемых в компиляции)". Пример:"make -j4" для четырехядерного cpu или "make -j2" для двухядерного cpu.
+
+8. Теперь мы собрали zImage ядра! Берем zImage из common/arch/arm/boot и скачиваем ramdisk отсюда (https://github.com/Lopicl/android_kernel_ramdisks) Для создания boot.img используем кухню для сборки ядра отсюда: (https://github.com/Lopicl/linux_kernelkitchen).
+
+ВНИМАНИЕ! Используйте сжатие LZMA для RAMDISK!!!
