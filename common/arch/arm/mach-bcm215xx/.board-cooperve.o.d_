@@ -215,6 +215,7 @@ board-cooperve.o: arch/arm/mach-bcm215xx/board-cooperve.c \
  arch/arm/mach-bcm215xx/device.h \
  arch/arm/plat-bcmap/include/plat/brcm_headset_pd.h \
  include/linux/spi/spi.h arch/arm/plat-bcmap/include/plat/timer.h \
+ arch/arm/plat-bcmap/include/plat/bcm_pwm_block.h \
  arch/arm/plat-bcmap/include/plat/bcm_lcdc.h \
  include/linux/broadcom/bcmblt-rfkill.h include/linux/rfkill.h \
  arch/arm/plat-bcmap/include/plat/bcm_rfkill.h \

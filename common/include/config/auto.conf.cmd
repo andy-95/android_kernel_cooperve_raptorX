@@ -80,6 +80,7 @@ deps_config := \
 	fs/ext3/Kconfig \
 	fs/ext2/Kconfig \
 	fs/Kconfig \
+	../modules/frandom/Kconfig \
 	../modules/drivers/gps/brcm/Kconfig \
 	../modules/drivers/sound/brcm/headset/Kconfig \
 	../modules/drivers/sound/brcm/alsa_athena/Kconfig \

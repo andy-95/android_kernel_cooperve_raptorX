@@ -20,7 +20,6 @@
  * expects the frequency value to be in kHz.
  */
 enum {
-        BCM21553_CORECLK_KHZ_156 = (156U * 1000),
         BCM21553_CORECLK_KHZ_208 = (208U * 1000),
 	BCM21553_CORECLK_KHZ_312 = (312U * 1000),
         BCM21553_CORECLK_KHZ_416 = (416U * 1000),

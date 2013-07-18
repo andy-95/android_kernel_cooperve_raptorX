@@ -1,0 +1,7 @@
+#FRANDOM_MODULE
+config FRANDOM_MODULE
+       tristate "FRANDOM module for Fast RANDOM generating"
+       default N 
+	help
+	  Say M to build the FRANDOM module.  This speeds up the random
+	  generating of 10-50 times than normal URANDOM.
