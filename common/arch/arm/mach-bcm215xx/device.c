@@ -549,13 +549,12 @@ struct platform_device bcm215xx_lcdc_device = {
 };
 #endif
 
-#define BCM_CORE_CLK_SOCLOCK	BCM21553_CORECLK_KHZ_1040
-#define BCM_CORE_CLK_LOCLOCK	BCM21553_CORECLK_KHZ_936
 #define BCM_CORECLK_TURBO	BCM21553_CORECLK_KHZ_832
-#define BCM_CORE_CLK_SNORMAL	BCM21553_CORECLK_KHZ_624
-#define BCM_CORE_CLK_NORMAL	BCM21553_CORECLK_KHZ_416
-#define BCM_CORE_CLK_LNORMAL	BCM21553_CORECLK_KHZ_312
-#define BCM_CORE_CLK_UCLOCK	BCM21553_CORECLK_KHZ_208
+#define BCM_CORE_CLK_SPEED	BCM21553_CORECLK_KHZ_728
+#define BCM_CORE_CLK_FAST	BCM21553_CORECLK_KHZ_624
+#define BCM_CORE_CLK_MEDIUM	BCM21553_CORECLK_KHZ_468
+#define BCM_CORE_CLK_NORMAL	BCM21553_CORECLK_KHZ_312
+#define BCM_CORE_CLK_SLOW	BCM21553_CORECLK_KHZ_156
 
 #if defined(CONFIG_BCM_CPU_FREQ)
 /*********************************************************************
@@ -564,25 +563,22 @@ struct platform_device bcm215xx_lcdc_device = {
 
 /* Indices for the voltage to frequency mapping table */
 enum {
-	BCM_UCLOCK_MODE,
-	BCM_NUCLOCK_MODE,
-	BCM_LNORMAL_MODE,
+	BCM_SLOW_MODE,
 	BCM_NORMAL_MODE,
-	BCM_SNORMAL_MODE,
+	BCM_MEDIUM_MODE,
+	BCM_FAST_MODE,
+        BCM_SPEED_MODE,
         BCM_TURBO_MODE,
-	BCM_LOCLOCK_MODE,
-        BCM_SOCLOCK_MODE,
 };
 
 /* Voltage-Frequency mapping for BCM21553 CPU0 */
 static struct bcm_freq_tbl bcm215xx_cpu0_freq_tbl[] = {
-	FTBL_INIT(BCM_CORE_CLK_UCLOCK / 1000, 1180000),
-	FTBL_INIT(BCM_CORE_CLK_LNORMAL / 1000, 1200000),
-	FTBL_INIT(BCM_CORE_CLK_NORMAL / 1000, 1220000),
-	FTBL_INIT(BCM_CORE_CLK_SNORMAL / 1000, 1240000),
-        FTBL_INIT(BCM_CORECLK_TURBO / 1000, 1280000),
-	FTBL_INIT(BCM_CORE_CLK_LOCLOCK / 1000, 1320000),
-	FTBL_INIT(BCM_CORE_CLK_SOCLOCK / 1000, 1360000),
+	FTBL_INIT(BCM_CORE_CLK_SLOW / 1000, 1160000),
+	FTBL_INIT(BCM_CORE_CLK_NORMAL / 1000, 1200000),
+	FTBL_INIT(BCM_CORE_CLK_MEDIUM / 1000, 1220000),
+	FTBL_INIT(BCM_CORE_CLK_FAST / 1000, 1240000),
+        FTBL_INIT(BCM_CORE_CLK_SPEED / 1000, 1260000),
+	FTBL_INIT(BCM_CORECLK_TURBO / 1000, 1280000),
 };
 /* BCM21553 CPU info */
 static struct bcm_cpu_info bcm215xx_cpu_info[] = {
@@ -618,7 +614,11 @@ struct platform_device bcm21553_cpufreq_drv = {
 
 static struct bcm21553_cpufreq_gov_plat bcm21553_cpufreq_gov_plat = {
 	.freq_turbo = BCM_CORECLK_TURBO,
+        .freq_speed = BCM_CORE_CLK_SPEED,
+        .freq_fast = BCM_CORE_CLK_FAST,
+        .freq_medium = BCM_CORE_CLK_MEDIUM,
 	.freq_normal = BCM_CORE_CLK_NORMAL,
+        .freq_slow = BCM_CORE_CLK_SLOW,
 };
 
 struct platform_device bcm21553_cpufreq_gov = {
@@ -634,18 +634,17 @@ struct platform_device bcm21553_cpufreq_gov = {
 /*********************************************************************
  *                        DATA FOR AVS DRIVER                        *
  *********************************************************************/
+#define NM2_FF_VOLTAGE_NORMAL	1180000
+#define NM2_TT_VOLTAGE_NORMAL	1200000
+#define NM2_SS_VOLTAGE_NORMAL	1220000
 
-#define NM2_FF_VOLTAGE_NORMAL	1160000
-#define NM2_TT_VOLTAGE_NORMAL	1220000
-#define NM2_SS_VOLTAGE_NORMAL	1260000
-
-#define NM2_FF_VOLTAGE_TURBO	1220000
-#define NM2_TT_VOLTAGE_TURBO	1260000
+#define NM2_FF_VOLTAGE_TURBO	1260000
+#define NM2_TT_VOLTAGE_TURBO	1280000
 #define NM2_SS_VOLTAGE_TURBO	1300000
 
-#define NM_FF_VOLTAGE		1260000
+#define NM_FF_VOLTAGE		1240000
 #define NM_TT_VOLTAGE		1300000
-#define NM_SS_VOLTAGE		1340000
+#define NM_SS_VOLTAGE		1360000
 
 #define FF_THRESHOLD 445
 #define SS_THRESHOLD 395
@@ -653,21 +652,21 @@ struct platform_device bcm21553_cpufreq_gov = {
 static struct silicon_type_info part_type_ss = {
 	.lpm_voltage = -1, /* Pass -1 if no update needed */
 	.nm_voltage = NM_SS_VOLTAGE,
-	.nm2_normal_voltage = NM2_SS_VOLTAGE_NORMAL,
+        .nm2_normal_voltage = NM2_SS_VOLTAGE_NORMAL,
 	.nm2_turbo_voltage = NM2_SS_VOLTAGE_TURBO,
 };
 
 static struct silicon_type_info part_type_tt = {
 	.lpm_voltage = -1, /* Pass -1 if no update needed */
 	.nm_voltage = NM_TT_VOLTAGE,
-	.nm2_normal_voltage = NM2_TT_VOLTAGE_NORMAL,
+        .nm2_normal_voltage = NM2_TT_VOLTAGE_NORMAL,
 	.nm2_turbo_voltage = NM2_TT_VOLTAGE_TURBO,
 };
 
 static struct silicon_type_info part_type_ff = {
 	.lpm_voltage = -1, /* Pass -1 if no update needed */
 	.nm_voltage = NM_FF_VOLTAGE,
-	.nm2_normal_voltage = NM2_FF_VOLTAGE_NORMAL,
+        .nm2_normal_voltage = NM2_FF_VOLTAGE_NORMAL,
 	.nm2_turbo_voltage = NM2_FF_VOLTAGE_TURBO,
 };
 
@@ -678,7 +677,7 @@ static struct silicon_type_info part_type_ff = {
  */
 static void bcm215xx_avs_notify(int silicon_type)
 {
-	int normal;
+        int normal;
 	int turbo;
 
 	pr_info("%s: silicon_type : %d\n", __func__, silicon_type);
@@ -701,35 +700,26 @@ static void bcm215xx_avs_notify(int silicon_type)
 		break;
 
 	default:
-		normal = part_type_ss.nm2_normal_voltage;
-		turbo = part_type_ss.nm2_turbo_voltage;
+		normal = part_type_tt.nm2_normal_voltage;
+		turbo = part_type_tt.nm2_turbo_voltage;
 		break;
 	}
 
-	if (normal >= 0)
 	{
-		bcm215xx_cpu0_freq_tbl[BCM_UCLOCK_MODE].cpu_voltage =
-			1180000;
-		bcm215xx_cpu0_freq_tbl[BCM_LNORMAL_MODE].cpu_voltage =
-			1200000;
+		bcm215xx_cpu0_freq_tbl[BCM_SLOW_MODE].cpu_voltage =
+			1160000;
 		bcm215xx_cpu0_freq_tbl[BCM_NORMAL_MODE].cpu_voltage =
+			1200000;
+		bcm215xx_cpu0_freq_tbl[BCM_MEDIUM_MODE].cpu_voltage =
 			1220000;
-		bcm215xx_cpu0_freq_tbl[BCM_SNORMAL_MODE].cpu_voltage =
+		bcm215xx_cpu0_freq_tbl[BCM_FAST_MODE].cpu_voltage =
 			1240000;
-                bcm215xx_cpu0_freq_tbl[BCM_TURBO_MODE].cpu_voltage =
-                        1280000;
-                bcm215xx_cpu0_freq_tbl[BCM_LOCLOCK_MODE].cpu_voltage =
-                        1320000;
-                bcm215xx_cpu0_freq_tbl[BCM_SOCLOCK_MODE].cpu_voltage =
-                        1360000;
-	}
-	if (turbo >= 0)
+                bcm215xx_cpu0_freq_tbl[BCM_SPEED_MODE].cpu_voltage =
+                        1260000;
 		bcm215xx_cpu0_freq_tbl[BCM_TURBO_MODE].cpu_voltage =
-			1320000;
-                bcm215xx_cpu0_freq_tbl[BCM_LOCLOCK_MODE].cpu_voltage =
-                        1360000;
-                bcm215xx_cpu0_freq_tbl[BCM_SOCLOCK_MODE].cpu_voltage =
-                        1400000;
+			1280000;
+	}
+
 }
 #else
 #define bcm215xx_avs_notify NULL

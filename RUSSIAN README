@@ -15,6 +15,6 @@ By Lopicl.00@XDA-Developers ( Переведено needsst@4pda)
 
 7. Теперь вводим "make thunderkernel_cooperve_defconfig", а затем "make -j(здесь число ядер вашего Cpu используемых в компиляции)". Пример:"make -j4" для четырехядерного cpu или "make -j2" для двухядерного cpu.
 
-8. Теперь мы собрали zImage ядра! Берем zImage из common/arch/arm/boot и скачиваем ramdisk отсюда (https://github.com/Lopicl/android_kernel_ramdisks) Для создания boot.img используем кухню для сборки ядра отсюда: (https://github.com/Lopicl/linux_kernelkitchen).
+8. Теперь мы собрали zImage ядра! Берем zImage из common/arch/arm/boot и скачиваем ramdisk отсюда (https://github.com/Lopicl/android_kernel_ramdisks) Для создания boot.img используем кухню для сборки ядра отсюда: (https://github.com/Lopicl/linux_kernelkitchen). Don't forget to pick the FRANDOM module from /modules/frandom/frandom-sup.ko and to pick the init.d 00_frandom from my kernel package.
 
 ВНИМАНИЕ! Используйте сжатие LZMA для RAMDISK!!!

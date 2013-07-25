@@ -28,8 +28,8 @@
 #include <asm/uaccess.h>
 
 #define VOLT_CPU_LEN	7
-#define VOLT_CPU_LOW	1240000
-#define VOLT_CPU_HIGH	1300000
+#define VOLT_CPU_LOW	1180000
+#define VOLT_CPU_HIGH	1340000
 #define FIX_CPUFREQ	1
 
 static char volt_cpu_str[VOLT_CPU_LEN+4];
