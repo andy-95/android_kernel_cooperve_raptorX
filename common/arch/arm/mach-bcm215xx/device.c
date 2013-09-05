@@ -573,12 +573,12 @@ enum {
 
 /* Voltage-Frequency mapping for BCM21553 CPU0 */
 static struct bcm_freq_tbl bcm215xx_cpu0_freq_tbl[] = {
-	FTBL_INIT(BCM_CORE_CLK_SLOW / 1000, 1160000),
-	FTBL_INIT(BCM_CORE_CLK_NORMAL / 1000, 1200000),
-	FTBL_INIT(BCM_CORE_CLK_MEDIUM / 1000, 1220000),
-	FTBL_INIT(BCM_CORE_CLK_FAST / 1000, 1240000),
-        FTBL_INIT(BCM_CORE_CLK_SPEED / 1000, 1260000),
-	FTBL_INIT(BCM_CORECLK_TURBO / 1000, 1280000),
+	FTBL_INIT(BCM_CORE_CLK_SLOW / 1000, 1180000),
+	FTBL_INIT(BCM_CORE_CLK_NORMAL / 1000, 1220000),
+	FTBL_INIT(BCM_CORE_CLK_MEDIUM / 1000, 1240000),
+	FTBL_INIT(BCM_CORE_CLK_FAST / 1000, 1260000),
+        FTBL_INIT(BCM_CORE_CLK_SPEED / 1000, 1280000),
+	FTBL_INIT(BCM_CORECLK_TURBO / 1000, 1340000),
 };
 /* BCM21553 CPU info */
 static struct bcm_cpu_info bcm215xx_cpu_info[] = {
@@ -707,17 +707,17 @@ static void bcm215xx_avs_notify(int silicon_type)
 
 	{
 		bcm215xx_cpu0_freq_tbl[BCM_SLOW_MODE].cpu_voltage =
-			1160000;
+			1180000;
 		bcm215xx_cpu0_freq_tbl[BCM_NORMAL_MODE].cpu_voltage =
-			1200000;
-		bcm215xx_cpu0_freq_tbl[BCM_MEDIUM_MODE].cpu_voltage =
 			1220000;
-		bcm215xx_cpu0_freq_tbl[BCM_FAST_MODE].cpu_voltage =
+		bcm215xx_cpu0_freq_tbl[BCM_MEDIUM_MODE].cpu_voltage =
 			1240000;
+		bcm215xx_cpu0_freq_tbl[BCM_FAST_MODE].cpu_voltage =
+			1260000;
                 bcm215xx_cpu0_freq_tbl[BCM_SPEED_MODE].cpu_voltage =
-                        1260000;
+                        1280000;
 		bcm215xx_cpu0_freq_tbl[BCM_TURBO_MODE].cpu_voltage =
-			1280000;
+			1340000;
 	}
 
 }

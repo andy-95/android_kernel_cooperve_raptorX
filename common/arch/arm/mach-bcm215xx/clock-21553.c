@@ -606,7 +606,7 @@ int bcm21553_arm11_set_rate(struct clk *clk, unsigned long val)
 
 	if (val == arm11_freq[0])
 	{
-		mode = 0x0D;
+		mode = 0x0B;
 	}
         else if (val == arm11_freq[1])
 	{
@@ -622,7 +622,7 @@ int bcm21553_arm11_set_rate(struct clk *clk, unsigned long val)
 	}
         else if (val == arm11_freq[4])
 	{
-		mode = 0x0B;
+		mode = 0x0D;
 	}
         else if (val == arm11_freq[5])
 	{

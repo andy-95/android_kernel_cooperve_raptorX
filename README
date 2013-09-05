@@ -15,6 +15,6 @@ By Lopicl.00@XDA-Developers
 
 7. Now type "make thunderkernel_cooperve_defconfig" and then "make -j(number of cpu threads to use)" for example "make -j4" for a quad-core cpu, or "make -j2" for a dual-core cpu.
 
-8. Now the kernel is built! Use the zImage in common/arch/arm/boot and the RFS ramdisk on my github (https://github.com/Lopicl/ramdisk_cm7) for pack a boot.img. NOTE! USE LZMA COMPRESSION FOR RAMDISK!!! Don't forget to pick the FRANDOM module from /modules/frandom/frandom-sup.ko and to pick the init.d 00_frandom from my kernel package.
+8. Now the kernel is built! Use the zImage in common/arch/arm/boot and the RFS ramdisk on my github (https://github.com/Lopicl/ramdisk_cm7) for pack a boot.img. NOTE! USE LZMA COMPRESSION FOR RAMDISK!!! Don't forget to pick the FRANDOM module from /modules/frandom/frandom-sup.ko.
 
 NOTE! USE LZMA COMPRESSION FOR RAMDISK!!!
