@@ -54,6 +54,8 @@
 #include <linux/blx.h>
 #endif
 
+DEFINE_MUTEX(spa_charger_mutex);
+
 #define TRUE	1
 #define FALSE	0
 
@@ -181,28 +183,6 @@ struct max8986_power {
 	struct wake_lock usb_charger_wl;
 	struct wake_lock temp_adc_wl;
 #endif /*CONFIG_HAS_WAKELOCK*/
-
-#if defined CONFIG_BLX
-        if (max8986_power->batt_percentage = MAX_CHARGINGLIMIT) && (max8986_power->charging_status = POWER_SUPPLY_STATUS_CHARGING)
-        {
-        #define FULLY_CHARGED 1
-        }
-        else
-        {
-        #define FULLY_CHARGED 0
-        }
-#else
-        if (max8986_power->isFullcharged == TRUE)
-        {
-        #define FULLY_CHARGED 1
-        }
-        else
-        {
-        #define FULLY_CHARGED 0
-        }
-#endif
-
-DEFINE_MUTEX(spa_charger_mutex);
 
 #if defined(CONFIG_HAS_WAKELOCK) 
 	struct wake_lock jig_on_wl;
@@ -699,7 +679,35 @@ static u8 max8986_get_charging_current(struct max8986_power *max8986_power,u8 ch
 	return cc;
 }
 
+/****************************************************************************
+ *                          ADD BLX INTERFACE                               *
+ ****************************************************************************/
 
+#if defined CONFIG_BLX
+    #define CHARGE_TYPE 1
+#else
+    #define CHARGE_TYPE 2
+#endif
+
+const int *FULLY_CHARGED;
+
+int max8986_blx_enable(struct max8986_power *max8986_power){
+
+        struct max8986 *max8986 = max8986_power->max8986;
+
+        if (CHARGE_TYPE == 1) {
+                if ( max8986_power->batt_percentage == MAX_CHARGINGLIMIT ) {
+                        FULLY_CHARGED = 1;
+                }
+        }
+        else if (CHARGE_TYPE == 2) {
+                if ( max8986_power->isFullcharged == TRUE ) 
+                        FULLY_CHARGED = 1;
+        }
+        else {
+                FULLY_CHARGED = 0;
+        }
+}
 
 /****************************************************************************
 *
