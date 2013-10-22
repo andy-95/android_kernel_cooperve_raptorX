@@ -52,5 +52,4 @@ obj-$(CONFIG_INPUT_YAS_ORIENTATION) += yas_ori_kernel_driver.o
 obj-$(CONFIG_MAX8986_AUDIO)	+= max8986-audio.o
 obj-$(CONFIG_BCM59035_PWM)	+= bcm59035_pwm.o
 obj-$(CONFIG_MAX8986_MUIC)	+= max8986-muic.o
-obj-$(CONFIG_BLX)               += blx.o 
 

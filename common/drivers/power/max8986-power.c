@@ -50,10 +50,6 @@
 #include <mach/bcm21553_cpufreq_gov.h>
 #endif
 
-#if defined CONFIG_BLX
-#include <linux/blx.h>
-#endif
-
 DEFINE_MUTEX(spa_charger_mutex);
 
 #define TRUE	1
@@ -679,35 +675,7 @@ static u8 max8986_get_charging_current(struct max8986_power *max8986_power,u8 ch
 	return cc;
 }
 
-/****************************************************************************
- *                          ADD BLX INTERFACE                               *
- ****************************************************************************/
 
-#if defined CONFIG_BLX
-    #define CHARGE_TYPE 1
-#else
-    #define CHARGE_TYPE 2
-#endif
-
-const int *FULLY_CHARGED;
-
-int max8986_blx_enable(struct max8986_power *max8986_power){
-
-        struct max8986 *max8986 = max8986_power->max8986;
-
-        if (CHARGE_TYPE == 1) {
-                if ( max8986_power->batt_percentage == MAX_CHARGINGLIMIT ) {
-                        FULLY_CHARGED = 1;
-                }
-        }
-        else if (CHARGE_TYPE == 2) {
-                if ( max8986_power->isFullcharged == TRUE ) 
-                        FULLY_CHARGED = 1;
-        }
-        else {
-                FULLY_CHARGED = 0;
-        }
-}
 
 /****************************************************************************
 *
@@ -816,7 +784,7 @@ static void max8986_start_charging(struct max8986_power *max8986_power,
 
 	max8986_power->suspended = false;
 
-	if (FULLY_CHARGED = 0)
+	if(max8986_power->isFullcharged != TRUE)
 		max8986_power->charging_status = POWER_SUPPLY_STATUS_CHARGING;
 
 	if (max8986_power->power_src != supply_type)
@@ -850,9 +818,9 @@ static void max8986_stop_charging(struct max8986_power *max8986_power,
 	max8986_disable_irq(max8986, MAX8986_IRQID_INT2_MBCCHGERR);
 	max8986_disable_irq(max8986, MAX8986_IRQID_INT2_CHGERR);
 
-	if (FULLY_CHARGED = 0)
+	if(max8986_power->isFullcharged != TRUE)
 		max8986_power->charging_status = POWER_SUPPLY_STATUS_NOT_CHARGING;
-
+	
 	if (updatePwrSrc) {
 		pr_info("%s:updatePwrSrc\n", __func__);
 		old_pwr_src = max8986_power->power_src;
@@ -882,7 +850,7 @@ static void max8986_check_batt_vf(struct max8986_power *max8986_power)
 		{
 			pr_info("%s: vf=%d: battery removed\n", __func__,batt_vf);
 			max8986_power->batt_percentage=0;
-                        FULLY_CHARGED = 0;
+			max8986_power->isFullcharged = FALSE;			
 			max8986_power->batt_health = POWER_SUPPLY_HEALTH_DEAD;
 			max8986_stop_charging(max8986_power,TRUE);			
 			power_supply_changed(&max8986_power->battery);
@@ -1123,13 +1091,8 @@ static void max8986_get_batt_level_adc(struct max8986_power *max8986_power)
 	}
 	printk(KERN_INFO "%s:max8986_power->charging_status = %d\n",__func__,max8986_power->charging_status);
 	if (max8986_power->charging_status == POWER_SUPPLY_STATUS_FULL){
-#ifdef CONFIG_BLX
-		bat_per = MAX_CHARGINGLIMIT;
-		prev_scaled_level = MAX_CHARGINGLIMIT;
-#else
-                bat_per = 100;
+		bat_per = 100;
 		prev_scaled_level=100;
-#endif
 	}
 
 	if (bat_per != old_bat_per) {
@@ -1205,7 +1168,7 @@ static void inner_function(struct max8986_power *max8986_power)
 	}
 	
 	// Recharge
-	if( (FULLY_CHARGED=1)&&(max8986_power->batt_voltage <= BATT_RECHARGE_VOLT))
+	if( (max8986_power->isFullcharged==TRUE)&&(max8986_power->batt_voltage <= BATT_RECHARGE_VOLT))
 	{
 		pr_info("%s:recharge:current_volt=%d\n", __func__,max8986_power->batt_voltage);	
 		max8986_start_charging(max8986_power,max8986_power->charger_type);
@@ -1217,7 +1180,7 @@ static void inner_function(struct max8986_power *max8986_power)
 		if (max8986_power->is_charger_inserted != TRUE)
 		{
 			max8986_power->batt_percentage=0;
-			FULLY_CHARGED = 0;
+			max8986_power->isFullcharged = FALSE;
 			max8986_power->batt_health = POWER_SUPPLY_HEALTH_DEAD;
 			max8986_stop_charging(max8986_power,TRUE);
 			power_supply_changed(&max8986_power->battery);
@@ -1278,13 +1241,8 @@ static void max8986_ril_adc_notify_cb(unsigned long msg_type, int result,
 			max8986_power->batt_health = POWER_SUPPLY_HEALTH_GOOD;
 		}
 		if (max8986_power->charging_status == POWER_SUPPLY_STATUS_FULL){
-#ifdef CONFIG_BLX
-		bat_per = MAX_CHARGINGLIMIT;
-		prev_scaled_level = MAX_CHARGINGLIMIT;
-#else
-                bat_per = 100;
-		prev_scaled_level=100;
-#endif
+			bat_per = 100;
+			prev_scaled_level=100;
 		}
 
 		if (bat_per != old_bat_per) {
@@ -1528,7 +1486,7 @@ static void max8986_muic_event(int event, u32 param,  void *data)
 					max8986_power->charger_type);
 			
 			max8986_power->is_charger_inserted=FALSE;
-			FULLY_CHARGED = 0;
+			max8986_power->isFullcharged = FALSE;
 			max8986_power->is_timer_expired=FALSE;
 			is_ovp_suspended = false;
 #if defined(CONFIG_HAS_WAKELOCK)
@@ -1617,15 +1575,10 @@ static void max8986_power_isr(int irq, void *data)
 		pr_info("%s: End of Charging\n", __func__);
 		max8986_disable_irq(max8986, MAX8986_IRQID_INT2_CHGEOC);
 		max8986_power->charging_status = POWER_SUPPLY_STATUS_FULL;
-		FULLY_CHARGED=1;
-		max8986_power->is_timer_expired=FALSE;
-#ifdef CONFIG_BLX
-                max8986_power->batt_percentage= MAX_CHARGINGLIMIT;
-		prev_scaled_level= MAX_CHARGINGLIMIT;
-#else
+		max8986_power->isFullcharged = TRUE;
+		max8986_power->is_timer_expired=FALSE;		
 		max8986_power->batt_percentage=100;
 		prev_scaled_level=100;
-#endif
 		power_supply_changed(&max8986_power->battery);
 		max8986_stop_charging(max8986_power,FALSE);
 #ifdef MAX8986_LOG_CHARGING_TIME
@@ -1641,7 +1594,7 @@ static void max8986_power_isr(int irq, void *data)
 		pr_info("%s:MAX8986_IRQID_INT2_MBCCHGERR\n", __func__);
 		max8986_disable_irq(max8986, MAX8986_IRQID_INT2_MBCCHGERR);
 		max8986_power->charging_status = POWER_SUPPLY_STATUS_FULL;
-		FULLY_CHARGED = 0;
+		max8986_power->isFullcharged = FALSE;
 		power_supply_changed(&max8986_power->battery);	
 		max8986_power->is_timer_expired=TRUE;
 		max8986_power->next_expire_time = jiffies;
@@ -2470,7 +2423,7 @@ static int __devinit max8986_power_probe(struct platform_device *pdev)
 	//max8986_power->batt_voltage = power_pdata->batt_adc_tbl.bat_vol[2]*1000;
 	max8986_power->batt_voltage = power_pdata->batt_adc_tbl.bat_vol[power_pdata->batt_adc_tbl.num_entries-1]-1;	
 	max8986_power->batt_health = POWER_SUPPLY_HEALTH_GOOD;
-	FULLY_CHARGED = 0;
+	max8986_power->isFullcharged = FALSE;
 	max8986_power->is_charger_inserted= FALSE;
 	max8986_power->is_jig_inserted= FALSE;
 	max8986_power->is_timer_expired=FALSE;
