@@ -118,5 +118,4 @@ source "drivers/platform/Kconfig"
 
 source "../modules/Kconfig"
 
-source "../modules/frandom/Kconfig"
 endmenu

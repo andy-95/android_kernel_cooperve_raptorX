@@ -19,6 +19,7 @@ obj-$(CONFIG_BRCM_FUSE_NET) += ../modules/drivers/char/brcm/fuse_net/
 obj-$(CONFIG_BRCM_FUSE_AT) += ../modules/drivers/char/brcm/fuse_at/
 obj-$(CONFIG_BRCM_FUSE_PDP_CIB) += ../modules/drivers/char/brcm/fuse_pdp/
 
+
 obj-$(CONFIG_BRCM_FUSE_RIL_2153SDB) += ../modules/drivers/char/brcm/fuse_rpc/
 
 obj-$(CONFIG_BRCM_FUSE_RIL_2153SDB) += ../modules/drivers/char/brcm/fuse_ril/
@@ -38,5 +39,4 @@ endif
 obj-$(CONFIG_BRCM_HEADSET) += ../modules/drivers/sound/brcm/headset/
 #cntin
 obj-$(CONFIG_BRCM_CNTIN) += ../modules/drivers/gps/brcm/
-# Frandom module
-obj-$(CONFIG_FRANDOM_MODULE) += ../modules/frandom/
+

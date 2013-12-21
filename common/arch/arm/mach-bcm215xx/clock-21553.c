@@ -654,6 +654,7 @@ long bcm21553_arm11_round_rate(struct clk *clk, unsigned long desired_val)
 						 6);
 }
 
+
 /*AHB clock*/
 unsigned long bcm21553_ahb_get_rate(struct clk *clk)
 {

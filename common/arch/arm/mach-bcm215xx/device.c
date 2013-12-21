@@ -652,21 +652,21 @@ struct platform_device bcm21553_cpufreq_gov = {
 static struct silicon_type_info part_type_ss = {
 	.lpm_voltage = -1, /* Pass -1 if no update needed */
 	.nm_voltage = NM_SS_VOLTAGE,
-        .nm2_normal_voltage = NM2_SS_VOLTAGE_NORMAL,
+	.nm2_normal_voltage = NM2_SS_VOLTAGE_NORMAL,
 	.nm2_turbo_voltage = NM2_SS_VOLTAGE_TURBO,
 };
 
 static struct silicon_type_info part_type_tt = {
 	.lpm_voltage = -1, /* Pass -1 if no update needed */
 	.nm_voltage = NM_TT_VOLTAGE,
-        .nm2_normal_voltage = NM2_TT_VOLTAGE_NORMAL,
+	.nm2_normal_voltage = NM2_TT_VOLTAGE_NORMAL,
 	.nm2_turbo_voltage = NM2_TT_VOLTAGE_TURBO,
 };
 
 static struct silicon_type_info part_type_ff = {
 	.lpm_voltage = -1, /* Pass -1 if no update needed */
 	.nm_voltage = NM_FF_VOLTAGE,
-        .nm2_normal_voltage = NM2_FF_VOLTAGE_NORMAL,
+	.nm2_normal_voltage = NM2_FF_VOLTAGE_NORMAL,
 	.nm2_turbo_voltage = NM2_FF_VOLTAGE_TURBO,
 };
 
@@ -677,7 +677,7 @@ static struct silicon_type_info part_type_ff = {
  */
 static void bcm215xx_avs_notify(int silicon_type)
 {
-        int normal;
+	int normal;
 	int turbo;
 
 	pr_info("%s: silicon_type : %d\n", __func__, silicon_type);
@@ -719,7 +719,6 @@ static void bcm215xx_avs_notify(int silicon_type)
 		bcm215xx_cpu0_freq_tbl[BCM_TURBO_MODE].cpu_voltage =
 			1340000;
 	}
-
 }
 #else
 #define bcm215xx_avs_notify NULL
