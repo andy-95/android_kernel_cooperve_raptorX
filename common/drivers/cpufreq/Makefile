@@ -20,7 +20,7 @@ obj-$(CONFIG_CPU_FREQ_GOV_LAGFREE)	+= cpufreq_lagfree.o
 obj-$(CONFIG_CPU_FREQ_GOV_LAZY)	        += cpufreq_lazy.o
 obj-$(CONFIG_CPU_FREQ_GOV_ONDEMANDX)	+= cpufreq_ondemandx.o
 obj-$(CONFIG_CPU_FREQ_GOV_SCARY)  	+= cpufreq_scary.o
-obj-$(CONFIG_CPU_FREQ_GOV_HOTPLUG)      += cpufreq_lionheart.o
+obj-$(CONFIG_CPU_FREQ_GOV_HOTPLUG)      += cpufreq_hotplug.o
 obj-$(CONFIG_CPU_FREQ_GOV_SAVAGEDZEN)   += cpufreq_savagedzen.o
 
 
