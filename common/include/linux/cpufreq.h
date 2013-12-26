@@ -372,6 +372,9 @@ extern struct cpufreq_governor cpufreq_gov_conservative;
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_BCM21553)
 extern struct cpufreq_governor cpufreq_gov_bcm;
 #define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_bcm)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_HOTPLUG)
+extern struct cpufreq_governor cpufreq_gov_hotplug;
+#define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_hotplug)
 #endif
 
 
