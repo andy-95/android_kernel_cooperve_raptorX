@@ -106,6 +106,12 @@ config CPU_FREQ_DEFAULT_GOV_SMARTASS2
 	help
 	  Use the CPUFreq governor 'smartassV2' as default.
 
+config CPU_FREQ_DEFAULT_GOV_SMARTASSH3
+        bool "smartassH3"
+        select CPU_FREQ_GOV_SMARTASSH3
+        help
+          Use the CPUFreq governor 'SmartassH3' as default.
+
 config CPU_FREQ_DEFAULT_GOV_INTERACTIVEX
 	bool "interactiveX"
 	select CPU_FREQ_GOV_INTERACTIVEX
